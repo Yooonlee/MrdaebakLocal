@@ -23219,9 +23219,9 @@
 												"$ref": "AAAAAAGDuTOXO9A5WX0="
 											},
 											"font": "Arial;13;0",
-											"left": 24.45703125,
+											"left": 24.72998046875,
 											"top": 5,
-											"width": 41.92333984375,
+											"width": 41.47900390625,
 											"height": 13,
 											"text": "Signup"
 										},
@@ -23234,7 +23234,7 @@
 											"font": "Arial;13;1",
 											"left": 5,
 											"top": 5,
-											"width": 14.45703125,
+											"width": 14.72998046875,
 											"height": 13,
 											"text": "sd"
 										}
@@ -24620,11 +24620,11 @@
 												"$ref": "AAAAAAGD3qcouHFm7Rs="
 											},
 											"font": "Arial;13;0",
-											"left": 109.583984375,
-											"top": 181,
-											"width": 162.98583984375,
+											"left": 107.578125,
+											"top": 173,
+											"width": 154.40380859375,
 											"height": 13,
-											"text": "if(isDuplicated(id)) == False"
+											"text": "if(isDuplicated(id)) == True"
 										},
 										{
 											"_type": "LabelView",
@@ -24634,8 +24634,8 @@
 											},
 											"font": "Arial;13;1",
 											"left": 77,
-											"top": 181,
-											"width": 27.583984375,
+											"top": 173,
+											"width": 25.578125,
 											"height": 13,
 											"text": "loop"
 										},
@@ -24668,13 +24668,13 @@
 															"visible": false,
 															"font": "Arial;13;0",
 															"left": 92,
-															"top": 214,
+															"top": 206,
 															"height": 13
 														}
 													],
 													"font": "Arial;13;0",
 													"left": 72,
-													"top": 199,
+													"top": 191,
 													"width": 585,
 													"height": 43,
 													"guardLabel": {
@@ -24684,14 +24684,14 @@
 											],
 											"font": "Arial;13;0",
 											"left": 72,
-											"top": 199,
+											"top": 191,
 											"width": 585,
 											"height": 43
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 72,
-									"top": 176,
+									"top": 168,
 									"width": 585,
 									"height": 97,
 									"nameLabel": {
@@ -24721,11 +24721,11 @@
 												"$ref": "AAAAAAGD3qklaHGrN1o="
 											},
 											"font": "Arial;13;0",
-											"left": 109.583984375,
+											"left": 107.578125,
 											"top": 285,
-											"width": 195.6064453125,
+											"width": 186.91015625,
 											"height": 13,
-											"text": "if(isDeficiency(pw, info) == False)"
+											"text": "if(isDeficiency(pw, info) == True)"
 										},
 										{
 											"_type": "LabelView",
@@ -24736,7 +24736,7 @@
 											"font": "Arial;13;1",
 											"left": 77,
 											"top": 285,
-											"width": 27.583984375,
+											"width": 25.578125,
 											"height": 13,
 											"text": "loop"
 										},
@@ -25239,7 +25239,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGDuTOXOtA36ro="
 							},
-							"name": "if(isDuplicated(id)) == False",
+							"name": "if(isDuplicated(id)) == True",
 							"interactionOperator": "loop",
 							"operands": [
 								{
@@ -25258,7 +25258,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGDuTOXOtA36ro="
 							},
-							"name": "if(isDeficiency(pw, info) == False)",
+							"name": "if(isDeficiency(pw, info) == True)",
 							"interactionOperator": "loop",
 							"operands": [
 								{
@@ -26435,9 +26435,9 @@
 											"font": "Arial;13;0",
 											"left": 163.578125,
 											"top": 141,
-											"width": 499.99560546875,
+											"width": 476.87744140625,
 											"height": 13,
-											"text": "not(isBlank(id) == True or isBlank(pw) == True)) and ((id,pw) in activated_member_list)"
+											"text": "isBlank(id) == True or isBlank(pw) == True or not((id,pw) in activated_member_list)"
 										},
 										{
 											"_type": "LabelView",
@@ -27158,7 +27158,7 @@
 							"_parent": {
 								"$ref": "AAAAAAGD3rEHLHKvkrI="
 							},
-							"name": "not(isBlank(id) == True or isBlank(pw) == True)) and ((id,pw) in activated_member_list)",
+							"name": "isBlank(id) == True or isBlank(pw) == True or not((id,pw) in activated_member_list)",
 							"interactionOperator": "loop",
 							"operands": [
 								{
@@ -27288,9 +27288,9 @@
 												"$ref": "AAAAAAGD3spSdHXLskY="
 											},
 											"font": "Arial;13;0",
-											"left": 32.45703125,
+											"left": 32.72998046875,
 											"top": 13,
-											"width": 30.43408203125,
+											"width": 29.90087890625,
 											"height": 13,
 											"text": "Oder"
 										},
@@ -27303,7 +27303,7 @@
 											"font": "Arial;13;1",
 											"left": 13,
 											"top": 13,
-											"width": 14.45703125,
+											"width": 14.72998046875,
 											"height": 13,
 											"text": "sd"
 										}
