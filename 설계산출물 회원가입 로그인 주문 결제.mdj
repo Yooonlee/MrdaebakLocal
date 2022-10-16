@@ -25642,7 +25642,7 @@
 													"top": 47,
 													"width": 184.83349609375,
 													"height": 13,
-													"text": "Lifeline1: Customer_System"
+													"text": ": Customer_System"
 												},
 												{
 													"_type": "LabelView",
@@ -25869,7 +25869,7 @@
 													"top": 47,
 													"width": 159.53173828125,
 													"height": 13,
-													"text": "Lifeline2: Login_System"
+													"text": ": Login_System"
 												},
 												{
 													"_type": "LabelView",
@@ -26095,7 +26095,7 @@
 													"top": 47,
 													"width": 176.88623046875,
 													"height": 13,
-													"text": "Lifeline3: Manage_member"
+													"text": ": Manage_member"
 												},
 												{
 													"_type": "LabelView",
@@ -27120,7 +27120,6 @@
 							"_parent": {
 								"$ref": "AAAAAAGD3rEHLHKvkrI="
 							},
-							"name": "Lifeline1",
 							"represent": {
 								"$ref": "AAAAAAGD3rXnB3OTTqk="
 							},
@@ -27132,7 +27131,6 @@
 							"_parent": {
 								"$ref": "AAAAAAGD3rEHLHKvkrI="
 							},
-							"name": "Lifeline2",
 							"represent": {
 								"$ref": "AAAAAAGD3rbYt3PsajI="
 							},
@@ -27144,7 +27142,6 @@
 							"_parent": {
 								"$ref": "AAAAAAGD3rEHLHKvkrI="
 							},
-							"name": "Lifeline3",
 							"represent": {
 								"$ref": "AAAAAAGD3reQF3QivW4="
 							},
