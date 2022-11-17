@@ -10,6 +10,12 @@ dotenv.config();
 
 const { auth } = require("./src/middleware/auth");
 const { User } = require("./src/models/User");
+const { Cart } = require("./src/models/Cart");
+const { Inventory } = require("./src/models/Inventory");
+const { PrevOrder } = require("./src/models/PrevOrder");
+
+
+
 
 const PORT = 8000;
 //라우팅
@@ -114,8 +120,132 @@ app.get("/logout", auth, (req, res) => {
   });
 });
 
+//장바구니 추가 
+app.post("/menu", (req, res) => {
+  var cart = new Cart(req.body);
+  console.log(req.body);
+  var myname ;
+  var myaddress ;
+  User.findOne( { token: { $ne: '' } }, (err,user) =>{
+    if (!user) {
+      return res.json({
+        Success: false,
+        message: "장바구니에 해당하는 유저가 없습니다.",
+      });
+    }
+    myname = user.name;
+    myaddress = user.address;
+  });
+  cart.name = myname;
+  cart.address = myaddress;
+
+  cart.save((err, userInfo) => {
+    if (err) return res.json({ success: false, err });
+    return res.status(200).json({
+      success: true,
+    });
+  });
+});
+
+// 장바구니 보여주기
+app.get("/cart",  (req, res) => {
+
+  var myname ;
+  User.findOne( { token: { $ne: '' } }, (err,user) =>{
+    if (!user) {
+      return res.json({
+        Success: false,
+        message: "장바구니에 해당하는 유저가 없습니다.",
+      });
+    }
+    myname = user.name;
+  });
+
+  Cart.findOne({ name: myname }, (err, user) => {
+    if (!user) {
+      return res.json({
+        Success: false,
+        message: "장바구니에 해당하는 유저가 없습니다.",
+      });
+    }
+    res.json(user);
+});
+});
 
 
+
+//이전 주문목록에 추가 
+app.post("/cart", (req, res) => {
+  var user2;
+  User.findOne( { token: { $ne: '' } }, (err,user) =>{
+    if (!user) {
+      return res.json({
+        Success: false,
+        message: "장바구니에 해당하는 유저가 없습니다.",
+      });
+    }
+    user2 = user.name;
+  });
+
+  var a = Cart.findOne( { name: user2 }, (err,user) =>{
+    if (!user) {
+      return res.json({
+        Success: false,
+        message: "장바구니에 해당하는 유저가 없습니다.",
+      });
+    }
+    return(user);
+  });
+  // console.log(JSON.stringify(a));
+  var prevorder2 = new PrevOrder(a);
+
+  prevorder2.save((err, userInfo) => {
+    if (err) return res.json({ success: false, err });
+    return res.status(200).json({
+      success: true,
+    });
+  });
+});
+
+// 고객정보 보여주기
+app.get("/customerinfo",  (req, res) => {
+
+  var myname ;
+  User.findOne( { token: { $ne: '' } }, (err,user) =>{
+    if (!user) {
+      return res.json({
+        Success: false,
+        message: "해당하는 유저가 없습니다.",
+      });
+    }
+    res.json(user);
+  });
+});
+
+// 내 주문 목록 보여주기
+app.get("/myorderlist",  (req, res) => {
+
+  var myname ;
+  User.findOne( { token: { $ne: '' } }, (err,user) =>{
+    if (!user) {
+      return res.json({
+        Success: false,
+        message: "장바구니에 해당하는 유저가 없습니다.",
+      });
+    }
+    myname = user.name;
+  });
+
+  PrevOrder.findOne({ name: myname }, (err, user) => {
+    if (!user) {
+      return res.json({
+        Success: false,
+        message: "장바구니에 해당하는 유저가 없습니다.",
+      });
+    }
+    res.json(user);
+});
+});
 
 // app.get('/', function (req, res) {
 //     res.sendFile(path.join(__dirname, '../prototype_01/build/index.html'));

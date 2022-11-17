@@ -16,7 +16,7 @@ const userSchema = mongoose.Schema({
   },
   password: {
     type: String,
-    minlength: 5,
+    minlength: 1,
   },
   lastname: {
     type: String,
@@ -27,6 +27,9 @@ const userSchema = mongoose.Schema({
     default: 0,
   },
   image: String,
+  address: {
+    type: String,
+  },
   token: {
     type: String,
   },

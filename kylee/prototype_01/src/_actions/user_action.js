@@ -6,7 +6,7 @@ import { LOGIN_USER, REGISTER_USER, AUTH_USER } from "./types";
 
 export function loginUser(dataTosubmit) {
   const request = axios
-    .post("/login", dataTosubmit)
+    .post("http://localhost:8000/login", dataTosubmit)
     .then((response) => response.data);
   return {
     //
@@ -18,7 +18,7 @@ export function loginUser(dataTosubmit) {
 //회원가입
 export function registerUser(dataTosubmit) {
   const request = axios
-    .post("/register", dataTosubmit)
+    .post("http://localhost:8000/register", dataTosubmit)
     .then((response) => response.data);
   return {
     type: REGISTER_USER,
