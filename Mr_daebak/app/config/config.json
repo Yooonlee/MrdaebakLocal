@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "yoon",
+    "password": "lky271600",
+    "database": "practice-2",
+    "host": "practice-2.cmqzoesjtyym.ap-northeast-2.rds.amazonaws.com",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
