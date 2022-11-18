@@ -29,6 +29,7 @@ const PORT = 8000;
 // });
 // db.connect();
 const db = require('./src/config/db.js'); // db 불러오기 (mongoose)
+const { json } = require('body-parser');
 db();
 
 //앱 세팅
@@ -54,7 +55,7 @@ app.get("/", (req, res) => {
 //회원가입
 app.post("/register", (req, res) => {
   const user = new User(req.body);
-  console.log(req.body);
+  // console.log(req.body);
   user.save((err, userInfo) => {
     if (err) return res.json({ success: false, err });
     return res.status(200).json({
@@ -122,96 +123,84 @@ app.get("/logout", auth, (req, res) => {
 
 //장바구니 추가 
 app.post("/menu", (req, res) => {
-  var cart = new Cart(req.body);
-  console.log(req.body);
-  var myname ;
-  var myaddress ;
-  User.findOne( { token: { $ne: '' } }, (err,user) =>{
-    if (!user) {
-      return res.json({
-        Success: false,
-        message: "장바구니에 해당하는 유저가 없습니다.",
-      });
-    }
-    myname = user.name;
-    myaddress = user.address;
-  });
-  cart.name = myname;
-  cart.address = myaddress;
+  
+  // console.log(req.body);
 
-  cart.save((err, userInfo) => {
-    if (err) return res.json({ success: false, err });
-    return res.status(200).json({
-      success: true,
+  var cart = new Cart(req.body);
+  
+  
+  cart.save();
+
+  User.findOne( { token: { $ne: null } })
+    .exec()// returns promise
+    .then(theUser => {
+      let myname = theUser.name;
+      // let myaddress = theUser.address;
+      return Cart.updateOne( {_id : cart._id } , {name: myname});
+      })
+    .then(updated => {
+      //user updated
+    })
+    .catch(err => {
+      console.log(err);
     });
-  });
+
+    
+    res.status(200).send({ success: true });
 });
+
 
 // 장바구니 보여주기
 app.get("/cart",  (req, res) => {
 
-  var myname ;
-  User.findOne( { token: { $ne: '' } }, (err,user) =>{
-    if (!user) {
-      return res.json({
-        Success: false,
-        message: "장바구니에 해당하는 유저가 없습니다.",
-      });
-    }
-    myname = user.name;
+  
+  User.findOne( { token: { $ne: null } })
+  .exec()
+  .then(theUser => {
+    let myname = theUser.name;
+    return Cart.find({ name: myname });
+  })
+  .then(user => {
+    res.json(user);
   });
 
-  Cart.findOne({ name: myname }, (err, user) => {
-    if (!user) {
-      return res.json({
-        Success: false,
-        message: "장바구니에 해당하는 유저가 없습니다.",
-      });
-    }
-    res.json(user);
 });
-});
-
 
 
 //이전 주문목록에 추가 
 app.post("/cart", (req, res) => {
-  var user2;
-  User.findOne( { token: { $ne: '' } }, (err,user) =>{
-    if (!user) {
-      return res.json({
-        Success: false,
-        message: "장바구니에 해당하는 유저가 없습니다.",
-      });
-    }
-    user2 = user.name;
-  });
-
-  var a = Cart.findOne( { name: user2 }, (err,user) =>{
-    if (!user) {
-      return res.json({
-        Success: false,
-        message: "장바구니에 해당하는 유저가 없습니다.",
-      });
-    }
-    return(user);
-  });
-  // console.log(JSON.stringify(a));
-  var prevorder2 = new PrevOrder(a);
-
-  prevorder2.save((err, userInfo) => {
-    if (err) return res.json({ success: false, err });
-    return res.status(200).json({
-      success: true,
-    });
-  });
+  
+  let mycart;
+  User.findOne( { token: { $ne: null } })
+  .exec()
+  .then(theUser => {
+    let myname = theUser.name;
+    return Cart.find({ name: myname });
+  })
+  .then(a => {
+    mycart = a;
+  })
+  
+  // mycart.exec()
+  // .then(user =>{
+  //   let prevorder2 = new PrevOrder(user);
+  //   prevorder2.save();
+  //   return prevorder2;
+  // })
+  // .then(updated => {
+  //   //user updated
+  // })
+  // .catch(err => {
+  //   console.log(err);
+  // });
+  res.status(200).send({ success: true });
 });
 
 // 고객정보 보여주기
 app.get("/customerinfo",  (req, res) => {
 
-  var myname ;
-  User.findOne( { token: { $ne: '' } }, (err,user) =>{
+
+  User.findOne( { token: { $ne: null } }, (err,user) =>{
     if (!user) {
       return res.json({
         Success: false,
@@ -226,7 +215,7 @@ app.get("/customerinfo",  (req, res) => {
 app.get("/myorderlist",  (req, res) => {
 
   var myname ;
-  User.findOne( { token: { $ne: '' } }, (err,user) =>{
+  User.findOne( { token: { $ne: null } }, (err,user) =>{
     if (!user) {
       return res.json({
         Success: false,
@@ -236,7 +225,7 @@ app.get("/myorderlist",  (req, res) => {
     myname = user.name;
   });
 
-  PrevOrder.findOne({ name: myname }, (err, user) => {
+  PrevOrder.find({ name: myname }, (err, user) => {
     if (!user) {
       return res.json({
         Success: false,
@@ -246,6 +235,13 @@ app.get("/myorderlist",  (req, res) => {
     res.json(user);
 });
 });
+
+//재고 불러오기  + 변경
+//주문 내역에서 배달 불러오기 + 변경하기 
+
+
+
+
 
 // app.get('/', function (req, res) {
 //     res.sendFile(path.join(__dirname, '../prototype_01/build/index.html'));

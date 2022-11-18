@@ -26,7 +26,11 @@ const cartSchema = mongoose.Schema({
   address: {
     type: String,
     maxlength: 10000,
-  }
+  },
+  status: {
+    type: String,
+    default : "waiting",
+  },
 });
 
 

@@ -3,6 +3,7 @@ import useModal from "../ui/useModal";
 import Button from "../ui/Button";
 import React, { useState } from "react";
 import {registerUser}from "../../_actions/user_action"
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
   const [isShowingModal, toggleModal] = useModal();
@@ -11,7 +12,7 @@ function SignUp() {
   const [Address, setAddress] = useState("");
   const [Email, setEmail] = useState("");
   const [Phone, setPhone] = useState("");
-
+  const navigate = useNavigate();
   const onIDHandler = (event) => {
     setID(event.currentTarget.value);
     }
@@ -37,8 +38,9 @@ function SignUp() {
       address: Address,
     }
       // console.log(body);
+      // registerUser(body);
       registerUser(body);
-}
+  }
   let signupform =
     <form>
       아이디: <input type="text" name="id" value={Email} onChange={onEmailHandler}/><br />
