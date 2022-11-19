@@ -54,6 +54,7 @@ app.get("/", (req, res) => {
 
 //회원가입
 app.post("/register", (req, res) => {
+  
   const user = new User(req.body);
   // console.log(req.body);
   user.save((err, userInfo) => {
@@ -168,18 +169,46 @@ app.get("/cart",  (req, res) => {
 
 
 //이전 주문목록에 추가 
-app.post("/cart", (req, res) => {
+app.post("/cart", async (req, res) => {
   
-  let mycart;
-  User.findOne( { token: { $ne: null } })
-  .exec()
-  .then(theUser => {
-    let myname = theUser.name;
-    return Cart.find({ name: myname });
-  })
-  .then(a => {
-    mycart = a;
-  })
+
+  const findUser  = await User.findOne( { token: { $ne: null } });
+    
+  // const findUser = async() => {
+  //   const myuser = await User.findOne( { token: { $ne: null } });
+  //   return myuser;
+  // }
+  
+  Cart.find({ name: findUser.name })
+  .lean() 
+  .exec( (err, users) => {
+    let prevorder = new PrevOrder(users);
+    prevorder.save();
+  });
+
+  res.status(200).send({ success: true });
+
+  // const findCart =  await Cart.find({ name: findUser.name });
+  
+  // console.log(findCart);
+  // var prevorder2 = new PrevOrder(findCart);
+  // prevorder2.save();
+
+  
+
+  
+
+  
+  // savePrev(b);
+  // User.findOne( { token: { $ne: null } })
+  // .exec()
+  // .then(theUser => {
+  //   let myname = theUser.name;
+  //   return Cart.find({ name: myname });
+  // })
+  // .then(a => {
+  //   mycart = a;
+  // })
   
   // mycart.exec()
   // .then(user =>{
@@ -193,7 +222,7 @@ app.post("/cart", (req, res) => {
   // .catch(err => {
   //   console.log(err);
   // });
-  res.status(200).send({ success: true });
+  
 });
 
 // 고객정보 보여주기
