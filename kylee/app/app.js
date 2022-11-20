@@ -52,6 +52,9 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+app.get("/login", (req, res) => {
+  res.send("Hello World!");
+});
 //회원가입
 app.post("/register", (req, res) => {
   
@@ -75,7 +78,7 @@ app.post("/login", (req, res) => {
         message: "이메일에 해당하는 유저가 없습니다.",
       });
     }
-    
+
     //2. 1조건 충족 시, 비번 맞는 지 확인
     user.comparePassword(req.body.password, (err, isMatch) => {
       if (!isMatch)
@@ -118,7 +121,7 @@ app.get("/auth", auth, (req, res) => {
 //LogOut
 app.get("/logout", auth, (req, res) => {
   console.log()
-  User.findOneAndUpdate({ _id: req.user._id }, { token: "" }, (err, user) => {
+  User.findOneAndUpdate({ token: { $ne: null } }, { token: "" }, (err, user) => {
     if (err) return res.json({ success: false, err });
     return res.status(200).send({ success: true });
   });
@@ -294,19 +297,20 @@ app.get("/inventory",  (req, res) => {
   });
 });
 
-//재고 변경  +플러스
+//재고 변경  
 app.post("/inventory", async (req, res) => {
   
-  const name = req.name;
-  const num = req.num;
-  const update = { col : num };
+  const name2 = req.body.name;
+  const num = req.body.num;
+  const update = { [name2] : num };
   const filter = {_id : "637a0fb86f95953a1c09b161"};// 어차피 인벤토리는 하나이기 때문에 데이터 삽입시 만들어진 아이디를 사용. 
-  // console.log(req.body);
-  let doc = await Inventory.updateOne(filter, {
-    new: true
+  
+
+  Inventory.findOneAndUpdate(filter, update, (err, user) => {
+    if (err) return res.json({ success: false, err });
+    return res.status(200).send({ success: true });
   });
 });
- 
 
 
 //주문 목록 보여주기 
@@ -324,15 +328,17 @@ app.get("/prevorders",  (req, res) => {
 });
 
 //주문 목록에서 status를 변경하기 
-app.post("/inventory", async (req, res) => {
+app.post("/prevorder", async (req, res) => {
   
-  const name = req.name;
-  const num = req.num;
-  const update = { col : num };
-  const filter = {_id : "637a0fb86f95953a1c09b161"};
-  // console.log(req.body);
-  let doc = await Inventory.updateOne(filter, {
-    new: true
+  const cartid = req.body.id;
+  const cartstatus = req.body.status;
+  const update = { status : cartstatus };
+  const filter = {_id : cartid};// 어차피 인벤토리는 하나이기 때문에 데이터 삽입시 만들어진 아이디를 사용. 
+  
+
+  PrevOrder.findOneAndUpdate(filter, update, (err, user) => {
+    if (err) return res.json({ success: false, err });
+    return res.status(200).send({ success: true });
   });
 });
 
