@@ -75,6 +75,7 @@ app.post("/login", (req, res) => {
         message: "이메일에 해당하는 유저가 없습니다.",
       });
     }
+    
     //2. 1조건 충족 시, 비번 맞는 지 확인
     user.comparePassword(req.body.password, (err, isMatch) => {
       if (!isMatch)
@@ -116,6 +117,7 @@ app.get("/auth", auth, (req, res) => {
 
 //LogOut
 app.get("/logout", auth, (req, res) => {
+  console.log()
   User.findOneAndUpdate({ _id: req.user._id }, { token: "" }, (err, user) => {
     if (err) return res.json({ success: false, err });
     return res.status(200).send({ success: true });
@@ -171,22 +173,35 @@ app.get("/cart",  (req, res) => {
 //이전 주문목록에 추가 
 app.post("/cart", async (req, res) => {
   
-
-  const findUser  = await User.findOne( { token: { $ne: null } });
     
-  // const findUser = async() => {
-  //   const myuser = await User.findOne( { token: { $ne: null } });
-  //   return myuser;
-  // }
+    const prevorders = new PrevOrder(req.body);
+    // console.log(req.body);
+    prevorders.save((err, userInfo) => {
+      if (err) return res.json({ success: false, err });
   
-  Cart.find({ name: findUser.name })
-  .lean() 
-  .exec( (err, users) => {
-    let prevorder = new PrevOrder(users);
-    prevorder.save();
-  });
+      return res.status(200).json({
+        success: true,
+      });
+    });
+    
+    Cart.remove({}, (err, kitties) => {
+      if(err) return res.json(err);
+    });
+  // const findUser  = await User.findOne( { token: { $ne: null } });
+    
+  // // const findUser = async() => {
+  // //   const myuser = await User.findOne( { token: { $ne: null } });
+  // //   return myuser;
+  // // }
+  // Cart.find({ name: findUser.name })
+  // .exec()
+  // .then((theUser) => {
+  //   console.log(theUser);
+  //   const prevorders = new PrevOrder(theUser);
+  //   prevorders.save();
+  // })
 
-  res.status(200).send({ success: true });
+  // res.status(200).send({ success: true });
 
   // const findCart =  await Cart.find({ name: findUser.name });
   
@@ -265,10 +280,61 @@ app.get("/myorderlist",  (req, res) => {
 });
 });
 
-//재고 불러오기  + 변경
-//주문 내역에서 배달 불러오기 + 변경하기 
+//재고 불러오기 
+app.get("/inventory",  (req, res) => {
+
+  Inventory.find( {}, (err,inventory) =>{
+    if (!inventory) {
+      return res.json({
+        Success: false,
+        message: "재고가 없습니다.",
+      });
+    }
+    res.json(inventory);
+  });
+});
+
+//재고 변경  +플러스
+app.post("/inventory", async (req, res) => {
+  
+  const name = req.name;
+  const num = req.num;
+  const update = { col : num };
+  const filter = {_id : "637a0fb86f95953a1c09b161"};// 어차피 인벤토리는 하나이기 때문에 데이터 삽입시 만들어진 아이디를 사용. 
+  // console.log(req.body);
+  let doc = await Inventory.updateOne(filter, {
+    new: true
+  });
+});
+ 
 
 
+//주문 목록 보여주기 
+app.get("/prevorders",  (req, res) => {
+
+  PrevOrder.find( {}, (err,prevorder) =>{
+    if (!prevorder) {
+      return res.json({
+        Success: false,
+        message: "재고가 없습니다.",
+      });
+    }
+    res.json(prevorder);
+  });
+});
+
+//주문 목록에서 status를 변경하기 
+app.post("/inventory", async (req, res) => {
+  
+  const name = req.name;
+  const num = req.num;
+  const update = { col : num };
+  const filter = {_id : "637a0fb86f95953a1c09b161"};
+  // console.log(req.body);
+  let doc = await Inventory.updateOne(filter, {
+    new: true
+  });
+});
 
 
 
