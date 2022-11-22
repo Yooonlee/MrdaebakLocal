@@ -120,7 +120,7 @@ app.get("/auth", auth, (req, res) => {
 
 //LogOut
 app.post("/logout", (req, res) => {
-  User.findOneAndUpdate({ _id: req.body._id }, { token: "" }, (err, user) => {
+  User.findOneAndUpdate({ _id: req.body._id }, { $unset : { token : 1} }, (err, user) => {
     if (err) return res.json({ success: false, err });
     return res.status(200).send({ success: true });
   });
@@ -140,7 +140,6 @@ app.post("/menu", (req, res) => {
     .exec()// returns promise
     .then(theUser => {
       let myname = theUser.email;
-      console.log(myname);
       // let myaddress = theUser.address;
       return Cart.findOneAndUpdate( {_id : cart._id } , {email: myname});
       })
@@ -164,7 +163,6 @@ app.get("/cart",  (req, res) => {
   .exec()
   .then(theUser => {
     let myname = theUser.email;
-    console.log(myname);
     return Cart.find({ email: myname });
   })
   .then(cart => {
@@ -177,10 +175,7 @@ app.get("/cart",  (req, res) => {
 //이전 주문목록에 추가 
 app.post("/cart", async (req, res) => {
   
-    
-    const prevorders = new PrevOrder(req.body);
-    // console.log(req.body);
-    prevorders.save((err, userInfo) => {
+    await PrevOrder.create( req.body ,(err) => {
       if (err) return res.json({ success: false, err });
   
       return res.status(200).json({
@@ -244,20 +239,48 @@ app.post("/cart", async (req, res) => {
   
 });
 
+
 // 고객정보 보여주기
 app.get("/customerinfo",  (req, res) => {
-
-
-  User.findOne( { token: { $ne: null } }, (err,user) =>{
-    if (!user) {
-      return res.json({
-        Success: false,
-        message: "해당하는 유저가 없습니다.",
-      });
-    }
+  User.findOne( { token: { $ne: null } }, )
+  .exec()
+  .then(theUser => {
+    console.log(theUser);
+    let myname = theUser.email;
+    return User.find({ email: myname });
+  })
+  .then(user => {
     res.json(user);
-  });
+  })
+
+  
+
+//   User.findOne( { token: { $ne: null } }, (err,user) =>{
+//     if (!user) {
+//       return res.json({
+//         Success: false,
+//         message: "해당하는 유저가 없습니다.",
+//       });
+//     }
+//     res.json(user);
+//   });
+// });
 });
+
+//회원 목록 삭제
+
+app.get("/customerdel",  (req, res) => {
+
+
+  User.remove({}, (err, kitties) => {
+    if(err) return res.json(err);
+  return res.status(200).send({ success: true });
+  });
+  
+});
+
+
+
 
 //고객정보 변경  
 app.post("/customerinfo", async (req, res) => {
@@ -277,27 +300,38 @@ app.post("/customerinfo", async (req, res) => {
 
 // 내 주문 목록 보여주기
 app.get("/myorderlist",  (req, res) => {
+  
+    User.findOne( { token: { $ne: null } })
+    .exec()
+    .then(theUser => {
+      let myname = theUser.email;
+      return PrevOrder.find({ email: myname });
+    })
+    .then(prev => {
+      res.json(prev);
+    });
+  
+//   var myname ;
+//   User.findOne( { token: { $ne: null } }, (err,user) =>{
+//     if (!user) {
+//       return res.json({
+//         Success: false,
+//         message: "장바구니에 해당하는 유저가 없습니다.",
+//       });
+//     }
+//     myname = user.email;
+//   });
 
-  var myname ;
-  User.findOne( { token: { $ne: null } }, (err,user) =>{
-    if (!user) {
-      return res.json({
-        Success: false,
-        message: "장바구니에 해당하는 유저가 없습니다.",
-      });
-    }
-    myname = user.email;
-  });
-
-  PrevOrder.find({ email: myname }, (err, user) => {
-    if (!user) {
-      return res.json({
-        Success: false,
-        message: "장바구니에 해당하는 유저가 없습니다.",
-      });
-    }
-    res.json(user);
-});
+//   PrevOrder.find({ email: myname }, (err, user) => {
+//     console.log(user);
+//     if (!user) {
+//       return res.json({
+//         Success: false,
+//         message: "장바구니에 해당하는 유저가 없습니다.",
+//       });
+//     }
+//     res.json(user);
+// });
 });
 
 //재고 불러오기 
@@ -361,6 +395,17 @@ app.post("/prevorder", async (req, res) => {
   });
 });
 
+//이전 주문 목록 삭제
+
+app.get("/prevorderdel",  (req, res) => {
+
+
+  PrevOrder.remove({}, (err, kitties) => {
+    if(err) return res.json(err);
+  return res.status(200).send({ success: true });
+  });
+  
+});
 
 
 // app.get('/', function (req, res) {

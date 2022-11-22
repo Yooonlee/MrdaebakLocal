@@ -35,7 +35,7 @@ function InvenMang() {
         setAmount(event.currentTarget.value);
         }
     const fetchData = async() => {
-        const response = await axios.get("http://localhost:8000/inven");
+        const response = await axios.get("http://localhost:8000/inventory");
         setInven(response.data);
         console.log(inven);
     };
@@ -43,7 +43,7 @@ function InvenMang() {
     useEffect( ()=>{fetchData()} ,[refresh]);
 
     
-    const Invenlist = Object.values(Inventories)?.map((invenCon) => { // Inventories 대신 inven을 넣어야 함
+    const Invenlist = Object.values(inven)?.map((invenCon) => { // Inventories 대신 inven을 넣어야 함
         const onClickChange = (event) => {
             event.preventDefault();
             let body = {

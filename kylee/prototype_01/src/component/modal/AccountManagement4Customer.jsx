@@ -21,43 +21,39 @@ const Wrapper = styled.div`
 
 function AccMag4Cus() {
     const [isShowingModal, toggleModal] = useModal();
-    const [cart, setCart] = useState("");
+    const [user, setUser] = useState("");
     const [refresh, setRefresh] = useState("");
-
-    
-    const fetchData = async() => {
-        const response = await axios.get("http://localhost:8000/customerinfo");
-        setCart(response.data);
-    };
-
-    useEffect( ()=>{fetchData()} ,[refresh]);
 
     const CheckHandler = async (e) =>{
         e.preventDefault();
         setRefresh(!refresh);
     }
-    const userinfomap = Object.keys(cart)?.map((key,  i)  => {
-        console.log(subject.email);
+    
+    const fetchData = async() => {
+        const response = await axios.get("http://localhost:8000/customerinfo");
+        setUser(response.data);
+    };
+    useEffect( ()=>{fetchData()} ,[refresh]);
+    
+    
+    const userinfomap = Object.values(user)?.map((value)  => {
+
         return(<div>
             <table>
                 <tr>
-                    <td>아이디: </td>
-                    <td>{value}</td>
+                    <td>아이디</td>
+                    <td>{value.email}</td>
                 </tr>
                 <tr>
-                    <td>비밀번호: </td>
-                    <td><input type="password" name="pw" placeholder={value.password} /></td>
+                    <td>주소</td>
+                    <td>{value.address}</td>
                 </tr>
                 <tr>
-                    <td>주소: </td>
-                    <td><input type="address" name="address" placeholder={value.address} /></td>
-                </tr>
-                <tr>
-                    <td colSpan="2"><button type="submit">수정하기</button></td>
+                    <td colSpan="4"><Button title="수정하기" /></td>
                 </tr>
             </table>
-        </div>);
-    });
+        </div>)
+    })
     let userinfo =
         <Wrapper>
             {userinfomap}
@@ -65,7 +61,7 @@ function AccMag4Cus() {
         </Wrapper>;
 
     return (<>
-        <Modal show={isShowingModal} onCloseButtonClick={toggleModal} content={userinfo} subUrl="myaccount" />
+        <Modal show={isShowingModal} onCloseButtonClick={toggleModal} content={userinfo}  />
         <TopMenuButton title="나의정보" onClick={toggleModal} /></>
     )
 }

@@ -15,7 +15,7 @@ function LogOut() {
 // useEffect( ()=>{fetchData()} ,[]);
 const fetchData = async() => {
   const response = await axios.get("http://localhost:8000/customerinfo");
-  setLogout2(response.data);
+  setLogout2(response.data[0]);
 };
 
 useEffect( ()=>{fetchData()} ,[]);

@@ -55,7 +55,6 @@ function MainPage(props) {
     };
 
     useEffect( ()=>{fetchData()} ,[refresh]);
-    console.log(user.role);
     return (
         <>
             <TopMenu>

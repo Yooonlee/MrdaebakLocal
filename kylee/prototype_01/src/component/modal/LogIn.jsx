@@ -2,8 +2,7 @@ import Modal from "../ui/Modal";
 import useModal from "../ui/useModal";
 import { Button, TopMenuButton } from "../ui/Button";
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import {loginUser, useCustomerinfo}from "../../_actions/user_action" // 유저 액션 추가
+import {loginUser}from "../../_actions/user_action" // 유저 액션 추가
 
 function LogIn() {
   const [isShowingModal, toggleModal] = useModal();

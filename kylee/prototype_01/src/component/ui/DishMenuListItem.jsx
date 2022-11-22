@@ -42,7 +42,7 @@ function DishMenuListItem(props) {
         <>
             <table>
                 <tr>
-                    <td colspan="2"><img src={dish.picture} alt="그림 없음" width="125px" height="125px" /></td>
+                    <td colSpan="2"><img src={dish.picture} alt="그림 없음" width="125px" height="125px" /></td>
                 </tr>
                 <tr>
                     <td><NameText>{dish.name}</NameText></td>
