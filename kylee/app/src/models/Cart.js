@@ -17,7 +17,7 @@ const cartSchema = mongoose.Schema({
   price: {
     type: Number,
   },
-  name: {
+  email: {
     type: String,
   },
   address: {

@@ -23,7 +23,7 @@ function AddOrder(props) {
     const handleChange = (event) => {
         setSelectedStyle(event.target.value)
     }
-    const dish = Dishes.find((item) => { return item.id == dishid; });
+    const dish = Dishes.find((item) => { return item.id === dishid; });
     const onClickAddorder = (event) => {
         event.preventDefault();
         let sum = eval("dish.price" + selectedStyle)

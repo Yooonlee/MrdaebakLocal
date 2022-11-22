@@ -2,8 +2,9 @@ import Modal from "./Modal";
 import useModal from "./useModal";
 import { Button, TopMenuButton } from "./Button";
 import React, { useState, useEffect } from "react";
-import {logout}from "../../_actions/user_action"
 import axios from "axios";
+import {logout}from "../../_actions/user_action"
+
 
 function LogOut() {
   const [logout2, setLogout2] = useState("");

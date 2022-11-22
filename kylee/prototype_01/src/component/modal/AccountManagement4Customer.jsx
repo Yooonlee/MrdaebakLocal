@@ -1,9 +1,10 @@
 import Modal from "../ui/Modal";
 import useModal from "../ui/useModal";
 import { Button, TopMenuButton } from "../ui/Button";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import styled from "styled-components";
-import userdata from "../database/Account.json"
+
 
 const Wrapper = styled.div`
     display: flex;
@@ -20,43 +21,52 @@ const Wrapper = styled.div`
 
 function AccMag4Cus() {
     const [isShowingModal, toggleModal] = useModal();
+    const [cart, setCart] = useState("");
+    const [refresh, setRefresh] = useState("");
 
-    let accmag4cus =
-        <Wrapper>
+    
+    const fetchData = async() => {
+        const response = await axios.get("http://localhost:8000/customerinfo");
+        setCart(response.data);
+    };
+
+    useEffect( ()=>{fetchData()} ,[refresh]);
+
+    const CheckHandler = async (e) =>{
+        e.preventDefault();
+        setRefresh(!refresh);
+    }
+    const userinfomap = Object.keys(cart)?.map((key,  i)  => {
+        console.log(subject.email);
+        return(<div>
             <table>
-            <tr>
-                    <td>이름: </td>
-                    <td colSpan="2">{userdata.name}</td>
-                </tr>
                 <tr>
                     <td>아이디: </td>
-                    <td colSpan="2">{userdata.id}</td>
+                    <td>{value}</td>
                 </tr>
                 <tr>
                     <td>비밀번호: </td>
-                    <td><input type="password" name="pw" placeholder={userdata.pw} /></td>
+                    <td><input type="password" name="pw" placeholder={value.password} /></td>
                 </tr>
                 <tr>
                     <td>주소: </td>
-                    <td><input type="address" name="address" placeholder={userdata.address} /></td>
-                </tr>
-                <tr>
-                    <td>전자우편: </td>
-                    <td><input type="text" name="email" placeholder={userdata.email} /></td>
-                </tr>
-                <tr>
-                    <td>전화번호: </td>
-                    <td><input type="phone" name="phone" placeholder={userdata.phone} /></td>
+                    <td><input type="address" name="address" placeholder={value.address} /></td>
                 </tr>
                 <tr>
                     <td colSpan="2"><button type="submit">수정하기</button></td>
                 </tr>
             </table>
+        </div>);
+    });
+    let userinfo =
+        <Wrapper>
+            {userinfomap}
+            <Button title="새로고침"onClick={CheckHandler}/>
         </Wrapper>;
 
     return (<>
-        <Modal show={isShowingModal} onCloseButtonClick={toggleModal} content={accmag4cus} subUrl="myaccount" />
-        <TopMenuButton title="내 정보" onClick={toggleModal} /></>
+        <Modal show={isShowingModal} onCloseButtonClick={toggleModal} content={userinfo} subUrl="myaccount" />
+        <TopMenuButton title="나의정보" onClick={toggleModal} /></>
     )
 }
 

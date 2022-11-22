@@ -140,8 +140,9 @@ app.post("/menu", (req, res) => {
     .exec()// returns promise
     .then(theUser => {
       let myname = theUser.email;
+      console.log(myname);
       // let myaddress = theUser.address;
-      return Cart.updateOne( {_id : cart._id } , {email: myname});
+      return Cart.findOneAndUpdate( {_id : cart._id } , {email: myname});
       })
     .then(updated => {
       //user updated
@@ -163,6 +164,7 @@ app.get("/cart",  (req, res) => {
   .exec()
   .then(theUser => {
     let myname = theUser.email;
+    console.log(myname);
     return Cart.find({ email: myname });
   })
   .then(cart => {
@@ -256,6 +258,22 @@ app.get("/customerinfo",  (req, res) => {
     res.json(user);
   });
 });
+
+//고객정보 변경  
+app.post("/customerinfo", async (req, res) => {
+  
+  const name2 = req.body.email;
+  const num = req.body.num;
+  const update = { [name2] : num };
+  const filter = {email : name2};// 어차피 인벤토리는 하나이기 때문에 데이터 삽입시 만들어진 아이디를 사용. 
+  
+
+  User.findOneAndUpdate(filter, update, (err, user) => {
+    if (err) return res.json({ success: false, err });
+    return res.status(200).send({ success: true });
+  });
+});
+
 
 // 내 주문 목록 보여주기
 app.get("/myorderlist",  (req, res) => {

@@ -32,6 +32,7 @@ function Cart() {
         e.preventDefault();
         setRefresh(!refresh);
     }
+    
     const fetchData = async() => {
         const response = await axios.get("http://localhost:8000/cart");
         setCart(response.data);
