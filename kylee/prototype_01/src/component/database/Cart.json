@@ -1,0 +1,14 @@
+[
+    {
+        "customerid": 1,
+        "dishid": 1,
+        "dishname" : "스파게티",
+        "dishstyle": "delux"
+    },
+    {
+        "customerid": 3,
+        "dishid": 2,
+        "dishname" : "스테이크",
+        "dishstyle": "simple"
+    }
+]

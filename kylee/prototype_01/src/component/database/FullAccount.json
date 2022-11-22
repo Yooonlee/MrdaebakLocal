@@ -1,0 +1,29 @@
+[
+    {
+        "id": "123",
+        "pw": "54",
+        "name": "홍길동",
+        "customernum": "977688",
+        "email": "234@435",
+        "phone": "222",
+        "address": "서울"
+    },
+    {
+        "id": "456",
+        "pw": "234",
+        "name": "길순",
+        "customernum": "456",
+        "email": "345@435",
+        "phone": "67",
+        "address": "부산"
+    },
+    {
+        "id": "546",
+        "pw": "123",
+        "name": "기봉",
+        "customernum": "567",
+        "email": "456@435",
+        "phone": "89",
+        "address": "제주"
+    }
+]

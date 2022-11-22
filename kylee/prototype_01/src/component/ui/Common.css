@@ -1,0 +1,8 @@
+* {
+    box-sizing: border-box;
+}
+
+table {
+    margin-left:auto; 
+    margin-right:auto;
+}

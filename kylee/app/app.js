@@ -119,9 +119,8 @@ app.get("/auth", auth, (req, res) => {
 });
 
 //LogOut
-app.get("/logout", auth, (req, res) => {
-  console.log()
-  User.findOneAndUpdate({ token: { $ne: null } }, { token: "" }, (err, user) => {
+app.post("/logout", (req, res) => {
+  User.findOneAndUpdate({ _id: req.body._id }, { token: "" }, (err, user) => {
     if (err) return res.json({ success: false, err });
     return res.status(200).send({ success: true });
   });
@@ -140,9 +139,9 @@ app.post("/menu", (req, res) => {
   User.findOne( { token: { $ne: null } })
     .exec()// returns promise
     .then(theUser => {
-      let myname = theUser.name;
+      let myname = theUser.email;
       // let myaddress = theUser.address;
-      return Cart.updateOne( {_id : cart._id } , {name: myname});
+      return Cart.updateOne( {_id : cart._id } , {email: myname});
       })
     .then(updated => {
       //user updated
@@ -163,11 +162,11 @@ app.get("/cart",  (req, res) => {
   User.findOne( { token: { $ne: null } })
   .exec()
   .then(theUser => {
-    let myname = theUser.name;
-    return Cart.find({ name: myname });
+    let myname = theUser.email;
+    return Cart.find({ email: myname });
   })
-  .then(user => {
-    res.json(user);
+  .then(cart => {
+    res.json(cart);
   });
 
 });
@@ -269,10 +268,10 @@ app.get("/myorderlist",  (req, res) => {
         message: "장바구니에 해당하는 유저가 없습니다.",
       });
     }
-    myname = user.name;
+    myname = user.email;
   });
 
-  PrevOrder.find({ name: myname }, (err, user) => {
+  PrevOrder.find({ email: myname }, (err, user) => {
     if (!user) {
       return res.json({
         Success: false,
@@ -326,6 +325,8 @@ app.get("/prevorders",  (req, res) => {
     res.json(prevorder);
   });
 });
+
+
 
 //주문 목록에서 status를 변경하기 
 app.post("/prevorder", async (req, res) => {

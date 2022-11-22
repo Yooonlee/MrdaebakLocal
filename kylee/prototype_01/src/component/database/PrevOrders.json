@@ -1,0 +1,20 @@
+[
+    {
+        "id": 1,
+        "customernumber": 345,
+        "dishid": 1,
+        "dishname" : "스파게티",
+        "dishstyle": "delux",
+        "time" : "2022-05-11 12:02",
+        "status" : "cooking"
+    },
+    {
+        "id": 1,
+        "customernumber": 768,
+        "dishid": 1,
+        "dishname" : "스파게티",
+        "dishstyle": "simple",
+        "time" : "2022-05-05 12:02",
+        "status" : "completed"
+    }
+]
