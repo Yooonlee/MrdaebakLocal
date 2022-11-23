@@ -27,7 +27,7 @@ background-color: #50bcdf;
 
     const [isShowingModal, toggleModal] = useModal();
     const [msg, setMsg] = useState("주문하실 음식을 말씀해 주세요.");
-    const [final, setFinal] = useState("주문하실 음식을 말씀해 주세요.");
+    const [final, setFinal] = useState("");
     const [isEnd, setIsEnd] = useState(false);
     let dishname;
     let dishstyle;
@@ -56,13 +56,13 @@ background-color: #50bcdf;
         console.log(final);
         if (final == '스파게티') {
             dishname = final;
-            setFinal(`${dishname}(을)를 주문하시겠습니까?<br />맞으면 예를, 아니면 주문하실 음식 이름을 말해주세요.`);
+            setMsg(`${dishname}(을)를 주문하시겠습니까?<br />맞으면 예를, 아니면 주문하실 음식 이름을 말해주세요.`);
             if (final == '예') {
-                setFinal(`${dishname}의 형태를 말씀해주세요. 보통, 고급, 호화가 있습니다.`);
+                setMsg(`${dishname}의 형태를 말씀해주세요. 보통, 고급, 호화가 있습니다.`);
                 dishstyle = final;
-                setFinal(`${dishstyle}로 주문하시겠습니까?<br />맞으면 예를, 아니면 주문하실 음식 형태를 말해주세요.`);
+                setMsg(`${dishstyle}로 주문하시겠습니까?<br />맞으면 예를, 아니면 주문하실 음식 형태를 말해주세요.`);
                 if (final == '예') {
-                    setFinal(`${dishname}에 ${dishstyle}로 주문합니다.<br />맞으면 예를, 아니면 아니오를 말해주세요.`);
+                    setMsg(`${dishname}에 ${dishstyle}로 주문합니다.<br />맞으면 예를, 아니면 아니오를 말해주세요.`);
                     if (final == '예') { recognition.stop(); }
                 }
             }
@@ -71,7 +71,7 @@ background-color: #50bcdf;
 
     if (!isShowingModal) { recognition.stop(); };
 
-    const voicereconize = final;
+    const voicereconize = msg;
 
     return (<>
         <Modal show={isShowingModal} onCloseButtonClick={toggleModal} content={voicereconize} subUrl="voicereconize" title="음성인식" />
