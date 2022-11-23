@@ -55,20 +55,20 @@ function MainPage(props) {
         setRefresh(!refresh);
     }
 
-    useEffect( ()=>{fetchData()} ,[refresh]);   
+
     //const navigate = useNavigate();
     const fetchData = async() => {
         const response = await axios.get("http://localhost:8000/customerinfo");
         console.log(response.data[0]);
         setUser(response.data[0]);
     };
- 
+    useEffect( ()=>{fetchData()} ,[refresh]);    
 
     return (
         <>
             <TopMenu>
                 <img src={require("../image/mrdaebak_logo.png")} height="50px" style={{ position: "absolute", top: "0.5rem", left: "20rem" }} />
-                { user.token != null ?  <><PrevOrderList /><Cart /><AccMag4Cus /><LogOut /><VoiceReconize /></> : <><LogIn /><SignUp /></>}
+                { (user.token != null)  && (user.role != 77)  ?  <><PrevOrderList /><Cart /><AccMag4Cus /><LogOut /><VoiceReconize /></> : <><LogIn /><SignUp /></>}
                 <Button title="확인"onClick={CheckHandler}/>
             </TopMenu>
             { user.role > 0 ? <MangingMenu><EmployeePage role={user.role} /></MangingMenu> : <></>}

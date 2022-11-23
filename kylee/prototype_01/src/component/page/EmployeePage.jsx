@@ -18,6 +18,10 @@ function EmployeePage(props) {
     {
         return (<><InvenMang /><DeliveryStatus /><AccMag /></>);
     }
+    else  // 로그인 안된 상태  
+    {
+        return (<></>);
+    }
 }
 
 export default EmployeePage;

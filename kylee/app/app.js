@@ -136,7 +136,7 @@ app.post("/menu", (req, res) => {
   
   cart.save();
 
-  User.findOne( { token: { $ne: null } })
+  User.findOne( { token: { $ne: null }, role: { $ne: 77 } })
     .exec()// returns promise
     .then(theUser => {
       let myname = theUser.email;
@@ -159,7 +159,7 @@ app.post("/menu", (req, res) => {
 app.get("/cart",  (req, res) => {
 
   
-  User.findOne( { token: { $ne: null } })
+  User.findOne( { token: { $ne: null }, role: { $ne: 77 } })
   .exec()
   .then(theUser => {
     let myname = theUser.email;
@@ -242,7 +242,7 @@ app.post("/cart", async (req, res) => {
 
 // 고객정보 보여주기
 app.get("/customerinfo",  (req, res) => {
-  User.findOne( { token: { $ne: null } }, )
+  User.findOne( { token: { $ne: null } } )
   .exec()
   .then(theUser => {
     console.log(theUser);
@@ -252,7 +252,9 @@ app.get("/customerinfo",  (req, res) => {
   .then(user => {
     res.json(user);
   })
-
+  .catch(e => {
+    console.log('고객정보가 없습니다.', e)
+  })
   
 
 //   User.findOne( { token: { $ne: null } }, (err,user) =>{
@@ -301,7 +303,7 @@ app.post("/customerinfo", async (req, res) => {
 // 내 주문 목록 보여주기
 app.get("/myorderlist",  (req, res) => {
   
-    User.findOne( { token: { $ne: null } })
+    User.findOne( { token: { $ne: null }, role: { $ne: 77 } })
     .exec()
     .then(theUser => {
       let myname = theUser.email;
@@ -337,15 +339,10 @@ app.get("/myorderlist",  (req, res) => {
 //재고 불러오기 
 app.get("/inventory",  (req, res) => {
 
-  Inventory.find( {}, (err,inventory) =>{
-    if (!inventory) {
-      return res.json({
-        Success: false,
-        message: "재고가 없습니다.",
-      });
-    }
-    res.json(inventory);
-  });
+  Inventory.find( {})
+  .then((inven) => {
+    return res.json(inven); 
+  } )    
 });
 
 //재고 변경  
@@ -367,7 +364,7 @@ app.post("/inventory", async (req, res) => {
 //주문 목록 보여주기 
 app.get("/prevorders",  (req, res) => {
 
-  PrevOrder.find( {}, (err,prevorder) =>{
+  PrevOrder.find( { token: { $ne: null }, role: { $ne: 77 } }, (err,prevorder) =>{
     if (!prevorder) {
       return res.json({
         Success: false,

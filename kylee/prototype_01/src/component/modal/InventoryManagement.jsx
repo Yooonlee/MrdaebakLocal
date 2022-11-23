@@ -37,13 +37,13 @@ function InvenMang() {
     const fetchData = async() => {
         const response = await axios.get("http://localhost:8000/inventory");
         setInven(response.data);
-        console.log(inven);
     };
 
     useEffect( ()=>{fetchData()} ,[refresh]);
 
     
-    const Invenlist = Object.values(inven)?.map((invenCon) => { // Inventories 대신 inven을 넣어야 함
+    const Invenlist = Object.values(inven)?.map((invenCon) => { 
+        console.log(invenCon);
         const onClickChange = (event) => {
             event.preventDefault();
             let body = {
@@ -57,9 +57,97 @@ function InvenMang() {
             <table style={{ borderBottom: "1px solid #808080" }}>
                 <tr>
                     <td>이름</td>
-                    <td>{invenCon.name}</td>
+                    <td>커피</td>
                     <td>수량</td>
-                    <td>{invenCon.amount}</td>
+                    <td>{invenCon.coffee}</td>
+                </tr>
+                <tr>
+                    <td>수량 변경</td>
+                    <td><input type="text" name="amount" placeholder={invenCon.amount} value = {inven.amount}
+                    onChange = {onAmountHandler} /></td>
+                </tr>
+                <tr>
+                    <td>이름</td>
+                    <td>와인</td>
+                    <td>수량</td>
+                    <td>{invenCon.wine}</td>
+                </tr>
+                <tr>
+                    <td>수량 변경</td>
+                    <td><input type="text" name="amount" placeholder={invenCon.amount} value = {inven.amount}
+                    onChange = {onAmountHandler} /></td>
+                </tr>
+                <tr>
+                    <td>이름</td>
+                    <td>샴페인</td>
+                    <td>수량</td>
+                    <td>{invenCon.shamp}</td>
+                </tr>
+                <tr>
+                    <td>수량 변경</td>
+                    <td><input type="text" name="amount" placeholder={invenCon.amount} value = {inven.amount}
+                    onChange = {onAmountHandler} /></td>
+                </tr>
+                <tr>
+                    <td>이름</td>
+                    <td>스테이크</td>
+                    <td>수량</td>
+                    <td>{invenCon.steak}</td>
+                </tr>
+                <tr>
+                    <td>수량 변경</td>
+                    <td><input type="text" name="amount" placeholder={invenCon.amount} value = {inven.amount}
+                    onChange = {onAmountHandler} /></td>
+                </tr>
+                <tr>
+                    <td>이름</td>
+                    <td>샐러드</td>
+                    <td>수량</td>
+                    <td>{invenCon.salad}</td>
+                </tr>
+                <tr>
+                    <td>수량 변경</td>
+                    <td><input type="text" name="amount" placeholder={invenCon.amount} value = {inven.amount}
+                    onChange = {onAmountHandler} /></td>
+                </tr>
+                <tr>
+                    <td>이름</td>
+                    <td>계란</td>
+                    <td>수량</td>
+                    <td>{invenCon.egg}</td>
+                </tr>
+                <tr>
+                    <td>수량 변경</td>
+                    <td><input type="text" name="amount" placeholder={invenCon.amount} value = {inven.amount}
+                    onChange = {onAmountHandler} /></td>
+                </tr>
+                <tr>
+                    <td>이름</td>
+                    <td>베이컨</td>
+                    <td>수량</td>
+                    <td>{invenCon.bacon}</td>
+                </tr>
+                <tr>
+                    <td>수량 변경</td>
+                    <td><input type="text" name="amount" placeholder={invenCon.amount} value = {inven.amount}
+                    onChange = {onAmountHandler} /></td>
+                </tr>
+                <tr>
+                    <td>이름</td>
+                    <td>빵</td>
+                    <td>수량</td>
+                    <td>{invenCon.bread}</td>
+                </tr>
+                <tr>
+                    <td>수량 변경</td>
+                    <td><input type="text" name="amount" placeholder={invenCon.amount} value = {inven.amount}
+                    onChange = {onAmountHandler} /></td>
+                </tr>
+                <tr>
+                    <td>이름</td>
+                    <td>바게트</td>
+                    <td>수량</td>
+                    <td>{invenCon.bagueete}</td>
                 </tr>
                 <tr>
                     <td>수량 변경</td>
