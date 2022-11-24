@@ -35,6 +35,7 @@ const MangingMenu = styled.div`
      display: flex;
      flex-direction: row;
      align-item: center;
+     justify-content: center;
      margin-bottom:100px;
  `;
 
