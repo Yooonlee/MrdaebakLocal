@@ -22,7 +22,7 @@ const cartSchema = mongoose.Schema({
   },
   address: {
     type: String,
-    default : "a",
+    default : "default",
   },
   status: {
     type: String,

@@ -4,39 +4,39 @@ const mongoose = require("mongoose");
 const inventorySchema = mongoose.Schema({
   coffee: {
     type: Number,
-    default : 10,
+    default : 100,
   },
   wine: {
     type: Number,
-    default : 10,
+    default : 100,
   },
   shamp: {
     type: Number,
-    default : 10,
+    default : 100,
   },  
   steak: {
     type: Number,
-    default : 10,
+    default : 100,
   },
   salad: {
     type: Number,
-    default : 10,
+    default : 100,
   },
   egg: {
     type: Number,
-    default : 10,
+    default : 100,
   },
   bacon: {
     type: Number,
-    default : 10,
+    default : 100,
   },
   bread: {
     type: Number,
-    maxlength: 150,
+    default : 100
   },
   baguette: {
     type: Number,
-    maxlength: 150,
+    default : 100
   },
 });
 inventorySchema.pre('save', function(next) {

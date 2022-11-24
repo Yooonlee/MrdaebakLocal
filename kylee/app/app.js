@@ -183,7 +183,7 @@ app.post("/cart", async (req, res) => {
       });
     });
     
-    
+
     Cart.remove({}, (err, kitties) => {
       if(err) return res.json(err);
     });
@@ -240,6 +240,62 @@ app.post("/cart", async (req, res) => {
   
 });
 
+//주문하기 + 재고 변경
+app.post("/cartnew", async (req, res) => {
+  
+  await PrevOrder.create( req.body ,(err) => {
+    if (err) return res.json({ success: false, err });
+
+    return res.status(200).json({
+      success: true,
+    });
+  });
+
+  const filter =  "637a0fb86f95953a1c09b161";
+
+  for(let item of req.body)
+  {
+    console.log(item.dinnerMenu);
+    let update = {};
+    if(item.dinnerMenu === "스파게티")
+    {
+      update = {$inc : {wine : -1, steak : -1 }};
+    }
+    else if(item.dinnerMenu === "스테이크")
+    {
+      update = ({$inc : {coffee : -1 , wine : -1, salad : -1, steak : -1 }});
+    } 
+    Inventory.findByIdAndUpdate(filter, update, (err, user) => {
+      if (err) return res.json({ success: false, err });
+      return res.status(200).send({ success: true });
+    });
+  }
+
+  
+  // const filter =  "637a0fb86f95953a1c09b161";
+  // if(req.body.dinnerMenu === "valentine")
+  // {
+  //   const update = ({$inc : {wine : -1 }}, {$inc : {steak : -1 }});
+  // }
+  // else if(req.body.dinnerMenu === "french")
+  // {
+  //   const update = ({$inc : {coffee : -1 }}, {$inc : {wine : -1 }}, {$inc : {salad : -1 }},{$inc : {steak : -1 }});
+  // }
+  // else if(req.body.dinnerMenu === "english")
+  // {
+  //   const update = ({$inc : {egg : -1 }}, {$inc : {bacon : -1 }}, {$inc : {bread : -1 }},{$inc : {steak : -1 }});
+  // }
+  // else
+  // {
+  //   const update = ({$inc : {shamp : -2 }}, {$inc : {baguette : -4 }}, {$inc : {coffee : -2 }},{$inc : {wine : -2 }}, {$inc : {steak : -2 }});
+  // }
+
+  
+
+  Cart.remove({}, (err, kitties) => {
+    if(err) return res.json(err);
+  });
+});
 
 // 고객정보 보여주기
 app.get("/customerinfo",  (req, res) => {

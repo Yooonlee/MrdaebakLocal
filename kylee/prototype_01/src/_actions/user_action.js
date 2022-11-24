@@ -39,7 +39,7 @@ export function addOrder(dataTosubmit) {
 
 export function Order(dataTosubmit) {
   const request = axios
-    .post("http://localhost:8000/cart", dataTosubmit)
+    .post("http://localhost:8000/cartnew", dataTosubmit)
     .then((response) => response.data);
   return {
     type: REGISTER_USER,
