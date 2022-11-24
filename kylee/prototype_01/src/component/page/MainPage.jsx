@@ -9,6 +9,7 @@ import LogIn from "../modal/LogIn";
 import LogOut from "../ui/LogOut";
 import SignUp from "../modal/SignUp";
 import PrevOrderList from "../modal/PrevOrderList";
+import PrevOrderListAll from "../modal/PrevOrderListAll";
 import Cart from "../modal/Cart";
 import AccMag4Cus from "../modal/AccountManagement4Customer";
 import EmployeePage from "./EmployeePage";
@@ -68,10 +69,10 @@ function MainPage(props) {
         <>
             <TopMenu>
                 <img src={require("../image/mrdaebak_logo.png")} height="50px" style={{ position: "absolute", top: "0.5rem", left: "20rem" }} />
-                { (user.token != null)  && (user.role != 77)  ?  <><PrevOrderList /><Cart /><AccMag4Cus /><LogOut /><VoiceReconize /></> : <><LogIn /><SignUp /></>}
+                { (user.token !== null)  && (user.role != 77)  ?  <><LogOut /><VoiceReconize /></> : <><LogIn /><SignUp /></>}
                 <Button title="확인"onClick={CheckHandler}/>
             </TopMenu>
-            { user.role > 0 ? <MangingMenu><EmployeePage role={user.role} /></MangingMenu> : <></>}
+            { user.role > 0 ? <MangingMenu><EmployeePage role={user.role} /></MangingMenu> : <><PrevOrderList /><Cart /><AccMag4Cus /></>}
             <MainPageMenuList>
                 <DishMenuList dishes={Dishes} isLogedin={user.token} />
             </MainPageMenuList>

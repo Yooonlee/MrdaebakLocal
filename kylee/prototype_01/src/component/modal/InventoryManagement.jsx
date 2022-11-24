@@ -24,16 +24,32 @@ function InvenMang() {
     
     const [isShowingModal, toggleModal] = useModal();
     const [inven, setInven] = useState("");
-    const [amount, setAmount] = useState("");
+    const [formdata, setFormdata] = useState({
+        coffee : 0,
+        wine : 0,
+        shamp : 0,
+        steak : 0,
+        salad : 0,
+        egg : 0,
+        bacon : 0,
+        bread : 0,
+        baguette : 0,
+    });
+    const { coffee, wine, shamp, steak, salad, egg, bacon, bread, baguette } = formdata; // 비구조화 할당을 통해 값 추출
+
     const [refresh, setRefresh] = useState("");
 
     const CheckHandler = async (e) =>{
         e.preventDefault();
         setRefresh(!refresh);
     }
-    const onAmountHandler = (event) => {
-        setAmount(event.currentTarget.value);
-        }
+    const handleChange = (event) => {
+        const {name, value} = event.target;
+        setFormdata({   
+                ...formdata,
+            [name] : value,
+            });
+    }
     const fetchData = async() => {
         const response = await axios.get("http://localhost:8000/inventory");
         setInven(response.data);
@@ -43,14 +59,12 @@ function InvenMang() {
 
     
     const Invenlist = Object.values(inven)?.map((invenCon) => { 
-        console.log(invenCon);
         const onClickChange = (event) => {
+            
             event.preventDefault();
-            let body = {
-                name: invenCon.name,
-                num: amount
-              }
-              registerInven(body);
+            console.log(formdata);
+            let body = formdata;
+            registerInven(body);
         }
         return (
         <div>
@@ -63,8 +77,8 @@ function InvenMang() {
                 </tr>
                 <tr>
                     <td>수량 변경</td>
-                    <td><input type="text" name="amount" placeholder={invenCon.amount} value = {inven.amount}
-                    onChange = {onAmountHandler} /></td>
+                    <td><input type="text" name="coffee"  value = {coffee}
+                    onChange = {handleChange} /></td>
                 </tr>
                 <tr>
                     <td>이름</td>
@@ -74,8 +88,8 @@ function InvenMang() {
                 </tr>
                 <tr>
                     <td>수량 변경</td>
-                    <td><input type="text" name="amount" placeholder={invenCon.amount} value = {inven.amount}
-                    onChange = {onAmountHandler} /></td>
+                    <td><input type="text" name="wine"  value = {wine} 
+                    onChange = {handleChange} /></td>
                 </tr>
                 <tr>
                     <td>이름</td>
@@ -85,8 +99,8 @@ function InvenMang() {
                 </tr>
                 <tr>
                     <td>수량 변경</td>
-                    <td><input type="text" name="amount" placeholder={invenCon.amount} value = {inven.amount}
-                    onChange = {onAmountHandler} /></td>
+                    <td><input type="text" name="shamp"  value = {shamp} 
+                    onChange = {handleChange} /></td>
                 </tr>
                 <tr>
                     <td>이름</td>
@@ -96,8 +110,8 @@ function InvenMang() {
                 </tr>
                 <tr>
                     <td>수량 변경</td>
-                    <td><input type="text" name="amount" placeholder={invenCon.amount} value = {inven.amount}
-                    onChange = {onAmountHandler} /></td>
+                    <td><input type="text" name="steak"  value = {steak} 
+                    onChange = {handleChange} /></td>
                 </tr>
                 <tr>
                     <td>이름</td>
@@ -107,8 +121,8 @@ function InvenMang() {
                 </tr>
                 <tr>
                     <td>수량 변경</td>
-                    <td><input type="text" name="amount" placeholder={invenCon.amount} value = {inven.amount}
-                    onChange = {onAmountHandler} /></td>
+                    <td><input type="text" name="salad"  value = {salad} 
+                    onChange = {handleChange} /></td>
                 </tr>
                 <tr>
                     <td>이름</td>
@@ -118,8 +132,8 @@ function InvenMang() {
                 </tr>
                 <tr>
                     <td>수량 변경</td>
-                    <td><input type="text" name="amount" placeholder={invenCon.amount} value = {inven.amount}
-                    onChange = {onAmountHandler} /></td>
+                    <td><input type="text" name="egg"  value = {egg} 
+                    onChange = {handleChange} /></td>
                 </tr>
                 <tr>
                     <td>이름</td>
@@ -129,8 +143,8 @@ function InvenMang() {
                 </tr>
                 <tr>
                     <td>수량 변경</td>
-                    <td><input type="text" name="amount" placeholder={invenCon.amount} value = {inven.amount}
-                    onChange = {onAmountHandler} /></td>
+                    <td><input type="text" name="bacon"  value = {bacon} 
+                    onChange = {handleChange} /></td>
                 </tr>
                 <tr>
                     <td>이름</td>
@@ -140,8 +154,8 @@ function InvenMang() {
                 </tr>
                 <tr>
                     <td>수량 변경</td>
-                    <td><input type="text" name="amount" placeholder={invenCon.amount} value = {inven.amount}
-                    onChange = {onAmountHandler} /></td>
+                    <td><input type="text" name="bread"  value = {bread} 
+                    onChange = {handleChange} /></td>
                 </tr>
                 <tr>
                     <td>이름</td>
@@ -151,8 +165,8 @@ function InvenMang() {
                 </tr>
                 <tr>
                     <td>수량 변경</td>
-                    <td><input type="text" name="amount" placeholder={invenCon.amount} value = {inven.amount}
-                    onChange = {onAmountHandler} /></td>
+                    <td><input type="text" name="baguette"  value = {baguette} 
+                    onChange = {handleChange} /></td>
                 </tr>
                 <tr>
                     <td colSpan="4"><Button title="변경" onClick = {onClickChange}/></td>

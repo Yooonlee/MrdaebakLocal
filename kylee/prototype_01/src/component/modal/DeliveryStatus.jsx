@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PrevOrders from "../database/PrevOrders.json"
 import { useNavigate, useParams } from "react-router-dom";
 import Modal from "../ui/Modal";
 import useModal from "../ui/useModal";
@@ -7,7 +6,6 @@ import { Button, TopMenuButton } from "../ui/Button";
 import styled from "styled-components";
 import axios from "axios";
 import {registerStatus}from "../../_actions/user_action"
-import * as GV from "../GlobalVariable.jsx"
 
 const Wrapper = styled.div`
     display: flex;
@@ -24,7 +22,7 @@ const Wrapper = styled.div`
 
 function DeliveryStatus(props) {
     const [isShowingModal, toggleModal] = useModal();
-    const [prevOrder, setPrevOrder] = useState("");
+    const [prev, setPrev] = useState("");
     const [selectedStatus, setSelectedStatus] = useState("");
     const [refresh, setRefresh] = useState("");
 
@@ -35,23 +33,23 @@ function DeliveryStatus(props) {
     const onStatusHandler = (event) => {
         setSelectedStatus(event.currentTarget.value)
         }
+    
     const fetchData = async() => {
-        const response = await axios.get("http://localhost:8000/deliver");
-        setPrevOrder(response.data);
-        
+        const response = await axios.get("http://localhost:8000/allorderlist");
+        console.log(response.data);
+        setPrev(response.data);
     };
 
     useEffect( ()=>{fetchData()} ,[refresh]);
 
     
-    const Prevorderlist = Object.values(PrevOrders)?.map((prevoderCon) => { //PrevOrders 대신 prevOrder 넣어야 함
+    const Prevorderlist = Object.values(prev)?.map((order) => { 
         const onClickChange = (event) => {
             event.preventDefault();
             let body = {
-              id: prevoderCon.customernumber,
-              time: prevoderCon.time,
-              dinnerMenu: prevoderCon.dishname,
-              dinnerStyle: prevoderCon.dishstyle,
+              _id: order._id,
+              dinnerMenu: order.dinnerMenu,
+              dinnerStyle: order.dinnerStyle,
               status: selectedStatus
               }
               registerStatus(body);
@@ -59,33 +57,29 @@ function DeliveryStatus(props) {
                 return (
                     <table style={{ borderBottom: "1px solid #808080" }}>
                         <tr>
-                            <td>고객 번호: </td>
-                            <td>{prevoderCon.customernumber}</td>
+                            <td style={{ backgroundColor: "#d3d3d3" }}>주문 음식</td>
+                            <td>{order.dinnerMenu}</td>
+                            <td style={{ backgroundColor: "#d3d3d3" }}>주문 스타일</td>
+                            <td>{order.dinnerStyle}</td>
                         </tr>
                         <tr>
-                            <td>시킨 시각: </td>
-                            <td>{prevoderCon.time}</td>
+                            <td style={{ backgroundColor: "#d3d3d3" }}>가격</td>
+                            <td>{order.price}</td>
+                            <td style={{ backgroundColor: "#d3d3d3" }}>개수</td>
+                            <td>{order.num}</td>
                         </tr>
                         <tr>
-                            <td>시킨 음식: </td>
-                            <td>{prevoderCon.dishname}</td>
-                        </tr>
-                        <tr>
-                            <td>시킨 형태: </td>
-                            <td>{GV.styleDic[prevoderCon.dishstyle]}</td>
-                        </tr>
-                        <tr>
-                            <td>현재 상태: </td>
-                            <td>{GV.styleDic[prevoderCon.status]}</td>
+                            <td colSpan="2" style={{ backgroundColor: "#d3d3d3" }}>주문 상태</td>
+                            <td colSpan="2">{order.status}</td>
                         </tr>
                         <tr>
                             <td>상태 바꾸기: </td>
                             <td><select name="statusChange" onChange={onStatusHandler} class="statusoption">
-                                <option value="cancled" selected={"cancled" == prevoderCon.status}>취소</option>
-                                <option value="waiting" selected={"waiting" == prevoderCon.status}>대기</option>
-                                <option value="cooking" selected={"cooking" == prevoderCon.status}>조리</option>
-                                <option value="delivering" selected={"delivering" == prevoderCon.status}>배달</option>
-                                <option value="completed" selected={"completed" == prevoderCon.status}>배달 완료</option>
+                                <option value="cancled" selected={"cancled" === order.status}>취소</option>
+                                <option value="waiting" selected={"waiting" === order.status}>대기</option>
+                                <option value="cooking" selected={"cooking" === order.status}>조리</option>
+                                <option value="delivering" selected={"delivering" === order.status}>배달</option>
+                                <option value="completed" selected={"completed" === order.status}>배달 완료</option>
                         </select></td>
                         </tr>
                         <tr>

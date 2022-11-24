@@ -62,27 +62,23 @@ export async function useCustomerinfo() {
 
 }
 export function registerInven(dataTosubmit) {
-    console.log("registerInven 호출")
-    console.log(dataTosubmit)
-  // const request = axios
-  //   .post("http://localhost:8000/menu", dataTosubmit)
-  //   .then((response) => response.data);
-  // return {
-  //   type: REGISTER_USER,
-  //   payload: request,
-  // };
+  const request = axios
+    .post("http://localhost:8000/inventory", dataTosubmit)
+    .then((response) => response.data);
+  return {
+    type: REGISTER_USER,
+    payload: request,
+  };
 }
 
 export function registerStatus(dataTosubmit) {
-  // console.log("registerStatus 호출")
-  console.log(dataTosubmit)
-// const request = axios
-//   .post("http://localhost:8000/menu", dataTosubmit)
-//   .then((response) => response.data);
-// return {
-//   type: REGISTER_USER,
-//   payload: request,
-// };
+  const request = axios
+    .post("http://localhost:8000/prevorder", dataTosubmit)
+    .then((response) => response.data);
+  return {
+    type: REGISTER_USER,
+    payload: request,
+  };
 }
 export async function logout(dataTosubmit) {
   const request = await axios

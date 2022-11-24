@@ -1,9 +1,10 @@
 import Modal from "../ui/Modal";
 import useModal from "../ui/useModal";
 import { Button, TopMenuButton } from "../ui/Button";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import styled from "styled-components";
-import UserDatas from "../database/FullAccount.json"
+
 
 const Wrapper = styled.div`
     display: flex;
@@ -18,60 +19,51 @@ const Wrapper = styled.div`
     }
 `;
 
-function AccMag() {
+function AccMag4Cus() {
     const [isShowingModal, toggleModal] = useModal();
+    const [user, setUser] = useState("");
+    const [refresh, setRefresh] = useState("");
 
-    let accmag =
+    const CheckHandler = async (e) =>{
+        e.preventDefault();
+        setRefresh(!refresh);
+    }
+    
+    const fetchData = async() => {
+        const response = await axios.get("http://localhost:8000/allcustomerinfo");
+        setUser(response.data);
+    };
+    useEffect( ()=>{fetchData()} ,[refresh]);
+    
+    
+    const userinfomap = Object.values(user)?.map((value)  => {
+
+        return(<div>
+            <table>
+                <tr>
+                    <td>아이디</td>
+                    <td>{value.email}</td>
+                </tr>
+                <tr>
+                    <td>주소</td>
+                    <td>{value.address}</td>
+                </tr>
+                <tr>
+                    <td colSpan="4"><Button title="수정하기" /></td>
+                </tr>
+            </table>
+        </div>)
+    })
+    let userinfo =
         <Wrapper>
-            {UserDatas.map((userdata, index) => {
-                return (
-                    <table style={{ borderBottom: "1px solid #808080" }}>
-                        <tr>
-                            <td>이름: </td>
-                            <td><input type="text" name="name" placeholder={userdata.pw} /></td>
-                        </tr>
-                        <tr>
-                            <td>아이디: </td>
-                            <td><input type="text" name="id" placeholder={userdata.id} /></td>
-                        </tr>
-                        <tr>
-                            <td>비밀번호: </td>
-                            <td><input type="password" name="pw" placeholder={userdata.pw} /></td>
-                        </tr>
-                        <tr>
-                            <td>주소: </td>
-                            <td><input type="address" name="address" placeholder={userdata.address} /></td>
-                        </tr>
-                        <tr>
-                            <td>전자우편: </td>
-                            <td><input type="text" name="email" placeholder={userdata.email} /></td>
-                        </tr>
-                        <tr>
-                            <td>전화번호: </td>
-                            <td><input type="phone" name="phone" placeholder={userdata.phone} /></td>
-                        </tr>
-                        <tr>
-                            <td>권한: </td>
-                            <td>
-                                <select>
-                                    <option value="0" selected={userdata.role=="0"}>고객</option>
-                                    <option value="1" selected={userdata.role=="1"}>조리원</option>
-                                    <option value="2" selected={userdata.role=="2"}>배달원</option>
-                                    <option value="3" selected={userdata.role=="3"}>관리자</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colSpan="2"><button type="submit">수정하기</button></td>
-                        </tr>
-                    </table>);
-            })}
+            {userinfomap}
+            <Button title="새로고침"onClick={CheckHandler}/>
         </Wrapper>;
 
     return (<>
-        <Modal show={isShowingModal} onCloseButtonClick={toggleModal} content={accmag} subUrl="accountmanagement" />
-        <TopMenuButton title="고객 정보" onClick={toggleModal} /></>
+        <Modal show={isShowingModal} onCloseButtonClick={toggleModal} content={userinfo}  />
+        <TopMenuButton title="모든고객정보" onClick={toggleModal} /></>
     )
 }
 
-export default AccMag;
+export default AccMag4Cus;
