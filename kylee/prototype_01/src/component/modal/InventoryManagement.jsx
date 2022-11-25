@@ -62,7 +62,6 @@ function InvenMang() {
         const onClickChange = (event) => {
             
             event.preventDefault();
-            console.log(formdata);
             let body = formdata;
             registerInven(body);
         }

@@ -33,7 +33,6 @@ function AddOrder(props) {
          dinnerStyle: selectedStyle,
          num: dishCount
         }
-        console.log(body)
         addOrder(body).payload
         .then(alert('장바구니 등록 완료하였습니다.') )
         .catch(err => {

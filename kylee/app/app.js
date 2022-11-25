@@ -120,7 +120,7 @@ app.get("/auth", auth, (req, res) => {
 
 //LogOut
 app.post("/logout", (req, res) => {
-  User.findOneAndUpdate({ _id: req.body._id }, { $unset : { token : 1} }, (err, user) => {
+  User.findOneAndUpdate({ _id: req.body._id }, { token  : "" }, (err, user) => {
     if (err) return res.json({ success: false, err });
     return res.status(200).send({ success: true });
   });
@@ -136,7 +136,7 @@ app.post("/menu", (req, res) => {
   
   cart.save();
 
-  User.findOne( { token: { $ne: null }, role: { $ne: 77 } })
+  User.findOne( { token: { $ne: "" }, role: { $ne: 77 } })
     .exec()// returns promise
     .then(theUser => {
       let myname = theUser.email;
@@ -159,7 +159,7 @@ app.post("/menu", (req, res) => {
 app.get("/cart",  (req, res) => {
 
   
-  User.findOne( { token: { $ne: null }, role: { $ne: 77 } })
+  User.findOne( { token: { $ne: "" }, role: { $ne: 77 } })
   .exec()
   .then(theUser => {
     let myname = theUser.email;
@@ -255,7 +255,7 @@ app.post("/cartnew", async (req, res) => {
 
   for(let item of req.body)
   {
-    console.log(item.dinnerMenu);
+
     let update = {};
     if(item.dinnerMenu === "스파게티")
     {
@@ -267,7 +267,7 @@ app.post("/cartnew", async (req, res) => {
     } 
     Inventory.findByIdAndUpdate(filter, update, (err, user) => {
       if (err) return res.json({ success: false, err });
-      return res.status(200).send({ success: true });
+      return ({ success: true });
     });
   }
 
@@ -292,27 +292,31 @@ app.post("/cartnew", async (req, res) => {
 
   
 
-  Cart.remove({}, (err, kitties) => {
+  Cart.deleteMany({}, (err, kitties) => {
     if(err) return res.json(err);
   });
 });
 
 // 고객정보 보여주기
 app.get("/customerinfo",  (req, res) => {
-  User.findOne( { token: { $ne: null } } )
+  User.find( { token: { $ne: "" } } )
   .exec()
   .then(theUser => {
-    console.log(theUser);
+    if(theUser.length !== 1)
+    {
+      theUser = theUser[1];// void계정이 가장 먼저 만들어져서 무조건 회원정보가 다음 배열에 들어간다.
+    }
+    else
+    {
+      theUser = theUser[0];
+    }
     let myname = theUser.email;
     return User.find({ email: myname });
   })
   .then(user => {
     res.json(user);
   })
-  .catch(e => {
-    console.log('고객정보가 없습니다.', e)
-  })
-  
+
 
 //   User.findOne( { token: { $ne: null } }, (err,user) =>{
 //     if (!user) {
@@ -328,15 +332,11 @@ app.get("/customerinfo",  (req, res) => {
 
 // 고객정보 보여주기
 app.get("/allcustomerinfo",  (req, res) => {
-  User.findOne( { role : 0 } )
+
+  User.find( { role : 0 } )
   .exec()
   .then(theUser => {
-    console.log(theUser);
-    let myname = theUser.email;
-    return User.find({ email: myname });
-  })
-  .then(user => {
-    res.json(user);
+    return res.json(theUser);
   })
   .catch(e => {
     console.log('고객정보가 없습니다.', e)
@@ -360,12 +360,9 @@ app.get("/customerdel",  (req, res) => {
 
 //고객정보 변경  
 app.post("/customerinfo", async (req, res) => {
-  
-  const name2 = req.body.email;
-  const num = req.body.num;
-  const update = { [name2] : num };
+  const name2 = req.body.emailOri;
+  const update = req.body;
   const filter = {email : name2};// 어차피 인벤토리는 하나이기 때문에 데이터 삽입시 만들어진 아이디를 사용. 
-  
 
   User.findOneAndUpdate(filter, update, (err, user) => {
     if (err) return res.json({ success: false, err });

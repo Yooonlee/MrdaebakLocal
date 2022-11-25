@@ -61,6 +61,17 @@ export async function useCustomerinfo() {
     };
 
 }
+
+export function changeCustomerinfo(dataTosubmit) {
+  const request = axios
+    .post("http://localhost:8000/customerinfo", dataTosubmit)
+    .then((response) => response.data);
+  return {
+    type: REGISTER_USER,
+    payload: request,
+  };
+}
+
 export function registerInven(dataTosubmit) {
   const request = axios
     .post("http://localhost:8000/inventory", dataTosubmit)
