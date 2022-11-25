@@ -61,6 +61,7 @@ function MainPage(props) {
     //const navigate = useNavigate();
     const fetchData = async() => {
         const response = await axios.get("http://localhost:8000/customerinfo");
+        console.log(response.data[0]);
         setUser(response.data[0]);
     };
     useEffect( ()=>{fetchData()} ,[refresh]);    

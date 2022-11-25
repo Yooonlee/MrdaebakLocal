@@ -374,9 +374,10 @@ app.post("/customerinfo", async (req, res) => {
 // 내 주문 목록 보여주기
 app.get("/myorderlist",  (req, res) => {
  
-    User.findOne( { token: { $ne: null }, role: 0 })
+    User.findOne( { token: { $ne: "" }, role: 0 })
     .exec()
     .then(theUser => {
+      console.log(theUser);
       let myname = theUser.email;
       return PrevOrder.find({ email: myname });
     })
@@ -447,7 +448,7 @@ app.post("/inventory", async (req, res) => {
 //주문 목록 보여주기 
 app.get("/prevorders",  (req, res) => {
 
-  PrevOrder.find( { token: { $ne: null }, role: { $ne: 77 } }, (err,prevorder) =>{
+  PrevOrder.find( { token: { $ne: "" }, role: { $ne: 77 } }, (err,prevorder) =>{
     if (!prevorder) {
       return res.json({
         Success: false,
