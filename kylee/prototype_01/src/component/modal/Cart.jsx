@@ -4,6 +4,7 @@ import { Button, TopMenuButton } from "../ui/Button";
 import React, { useState, useEffect } from "react";
 import Carts from "../database/Cart.json";
 import {Order}from "../../_actions/user_action"
+import {cancelCart}from "../../_actions/user_action"
 import axios from "axios";
 
 import styled from "styled-components";
@@ -44,6 +45,13 @@ function Cart() {
         event.preventDefault();
         Order(cart);
     }
+
+    const onRemove = (id) => {
+        const newcart = cart.filter((cartCon) => cartCon._id !== id);
+        console.log(newcart);
+        setCart(newcart);
+        cancelCart(newcart);
+      };
     const cartlist = Object.values(cart)?.map((cartCon) => {
         return(<div>
             <table style={{ borderBottom: "1px solid #e1a43f" }}>
@@ -60,7 +68,12 @@ function Cart() {
                     <td>{cartCon.price}</td>
                 </tr>
                 <tr>
-                    <td colSpan="4"><Button title="취소" /></td>
+                    <td colSpan="4"><Button title="취소" onClick={() =>  {
+                        console.log(cartCon._id);
+                        if (window.confirm(`${cartCon.dinnerMenu}를 정말 삭제하시겠습니까?`)){
+                            onRemove(cartCon._id)
+                        }; 
+                        }} /></td>
                 </tr>
             </table>
         </div>)

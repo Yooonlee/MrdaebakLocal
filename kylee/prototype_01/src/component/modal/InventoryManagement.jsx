@@ -160,7 +160,7 @@ function InvenMang() {
                     <td>이름</td>
                     <td>바게트</td>
                     <td>수량</td>
-                    <td>{invenCon.bagueete}</td>
+                    <td>{invenCon.baguette}</td>
                 </tr>
                 <tr>
                     <td>수량 변경</td>

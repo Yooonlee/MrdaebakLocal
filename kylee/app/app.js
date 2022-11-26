@@ -154,6 +154,38 @@ app.post("/menu", (req, res) => {
     res.status(200).send({ success: true });
 });
 
+//장바구니 수정하기 
+app.post("/cancelcart", async (req, res) => {
+  
+  let newcart = req.body;
+  await Cart.deleteMany({}, (err, kitties) => {
+    if(err) return res.json(err);
+  });
+  
+  for(let item of newcart)
+  {
+    console.log(item);
+    var cart = new Cart(item);
+     cart.save();
+
+     User.findOne( { token: { $ne: "" }, role: 0 })
+    .exec()// returns promise
+    .then(theUser => {
+      let myname = theUser.email;
+      // let myaddress = theUser.address;
+      return  Cart.findByIdAndUpdate( {_id : item._id } , {email: myname});
+      })
+    .then(updated => {
+      //user updated
+    })
+    .catch(err => {
+      console.log(err);
+    });
+
+  }    
+    res.status(200).send({ success: true });
+});
+
 
 // 장바구니 보여주기
 app.get("/cart",  (req, res) => {
@@ -251,46 +283,38 @@ app.post("/cartnew", async (req, res) => {
     });
   });
 
-  const filter =  "637a0fb86f95953a1c09b161";
 
+  const filter =  "637a0fb86f95953a1c09b161";
   for(let item of req.body)
   {
-
     let update = {};
-    if(item.dinnerMenu === "스파게티")
+    let number = item.num;
+    console.log(item);
+    if(item.dinnerMenu === "발렌타인 디너")
     {
-      update = {$inc : {wine : -1, steak : -1 }};
+       update = {$inc : {wine : -1 , steak : -1}};
     }
-    else if(item.dinnerMenu === "스테이크")
+    else if(item.dinnerMenu === "프렌치 디너")
     {
-      update = ({$inc : {coffee : -1 , wine : -1, salad : -1, steak : -1 }});
-    } 
-    Inventory.findByIdAndUpdate(filter, update, (err, user) => {
-      if (err) return res.json({ success: false, err });
-      return ({ success: true });
-    });
+       update = {$inc : {coffee : -1, wine : -1, salad : -1, steak : -1 }};
+    }
+    else if(item.dinnerMenu === "잉글리시 디너")
+    {
+       update = {$inc : {egg : -1, bacon : -1, bread : -1, steak : -1  }};
+    }
+    else
+    {
+       update = {$inc : {shamp : -2, baguette : -4, coffee : -2, wine : -2, steak : -2 }};
+    }  
+
+    for(var i = 1; i< number + 1; i++)
+    {
+      Inventory.findByIdAndUpdate(filter, update, (err, user) => {
+        if (err) return res.json({ success: false, err });
+        return ({ success: true });
+      });
+    }
   }
-
-  
-  // const filter =  "637a0fb86f95953a1c09b161";
-  // if(req.body.dinnerMenu === "valentine")
-  // {
-  //   const update = ({$inc : {wine : -1 }}, {$inc : {steak : -1 }});
-  // }
-  // else if(req.body.dinnerMenu === "french")
-  // {
-  //   const update = ({$inc : {coffee : -1 }}, {$inc : {wine : -1 }}, {$inc : {salad : -1 }},{$inc : {steak : -1 }});
-  // }
-  // else if(req.body.dinnerMenu === "english")
-  // {
-  //   const update = ({$inc : {egg : -1 }}, {$inc : {bacon : -1 }}, {$inc : {bread : -1 }},{$inc : {steak : -1 }});
-  // }
-  // else
-  // {
-  //   const update = ({$inc : {shamp : -2 }}, {$inc : {baguette : -4 }}, {$inc : {coffee : -2 }},{$inc : {wine : -2 }}, {$inc : {steak : -2 }});
-  // }
-
-  
 
   Cart.deleteMany({}, (err, kitties) => {
     if(err) return res.json(err);

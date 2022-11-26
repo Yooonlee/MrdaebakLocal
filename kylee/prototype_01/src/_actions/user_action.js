@@ -37,6 +37,16 @@ export function addOrder(dataTosubmit) {
   };
 }
 
+export function cancelCart(dataTosubmit) {
+  const request = axios
+    .post("http://localhost:8000/cancelcart", dataTosubmit)
+    .then((response) => response.data);
+  return {
+    type: REGISTER_USER,
+    payload: request,
+  };
+}
+
 export function Order(dataTosubmit) {
   const request = axios
     .post("http://localhost:8000/cartnew", dataTosubmit)
@@ -46,6 +56,8 @@ export function Order(dataTosubmit) {
     payload: request,
   };
 }
+
+
 
 export async function useCustomerinfo() {
   const [token, setToken]= useState(null);
