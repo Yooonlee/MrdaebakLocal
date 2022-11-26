@@ -165,7 +165,7 @@ app.post("/cancelcart", async (req, res) => {
   for(let item of newcart)
   {
     console.log(item);
-    var cart = new Cart(item);
+    let cart = new Cart(item);
      cart.save();
 
      User.findOne( { token: { $ne: "" }, role: 0 })
