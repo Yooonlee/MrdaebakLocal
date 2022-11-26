@@ -63,7 +63,7 @@ function AddOrder(props) {
         <td>
             <fieldset colSpan="3">
                 <legend>음식 형태</legend>
-                <input type="radio" value="simple" onClick={handleChange} checked={selectedStyle == "simple"} />보통
+                { dish.id === 4 ? null : <><input type="radio" value="simple" onClick={handleChange} checked={selectedStyle == "simple"} />보통</>}
                 <input type="radio" value="grand" onClick={handleChange} checked={selectedStyle == "grand"} />고급
                 <input type="radio" value="delux" onClick={handleChange} checked={selectedStyle == "delux"} />호화
             </fieldset>
