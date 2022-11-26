@@ -420,12 +420,8 @@ app.get("/myorderlist",  (req, res) => {
 // 모든 주문 목록 보여주기
 app.get("/allorderlist",  (req, res) => {
  
-  User.findOne( { role: 0 })
+  PrevOrder.find( { })
   .exec()
-  .then(theUser => {
-    let myname = theUser.email;
-    return PrevOrder.find({ email: myname });
-  })
   .then(prev => {
     res.json(prev);
   });
