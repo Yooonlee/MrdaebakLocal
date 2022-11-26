@@ -103,6 +103,17 @@ export function registerStatus(dataTosubmit) {
     payload: request,
   };
 }
+
+export function registerStatus2(dataTosubmit) {
+  const request = axios
+    .post("http://localhost:8000/cartrev", dataTosubmit)
+    .then((response) => response.data);
+  return {
+    type: REGISTER_USER,
+    payload: request,
+  };
+}
+
 export async function logout(dataTosubmit) {
   const request = await axios
     .post("http://localhost:8000/logout", dataTosubmit)

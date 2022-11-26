@@ -16,7 +16,7 @@ function EmployeePage(props) {
     }
     else if (role === 3) // 관리자? 
     {
-        return (<><InvenMang /><DeliveryStatus /></>);
+        return (<><InvenMang /><DeliveryStatus /><AccMag/></>);
     }
     else  // 로그인 안된 상태  
     {

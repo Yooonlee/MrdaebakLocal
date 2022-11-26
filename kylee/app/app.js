@@ -13,6 +13,7 @@ const { User } = require("./src/models/User");
 const { Cart } = require("./src/models/Cart");
 const { Inventory } = require("./src/models/Inventory");
 const { PrevOrder } = require("./src/models/PrevOrder");
+const mongoose = require("mongoose");
 
 
 
@@ -155,35 +156,19 @@ app.post("/menu", (req, res) => {
 });
 
 //장바구니 수정하기 
-app.post("/cancelcart", async (req, res) => {
+app.post("/cancelcart",  async (req, res) => {
   
   let newcart = req.body;
-  await Cart.deleteMany({}, (err, kitties) => {
-    if(err) return res.json(err);
-  });
-  
+  let idarr = [];
   for(let item of newcart)
   {
-    console.log(item);
-    let cart = new Cart(item);
-     cart.save();
-
-     User.findOne( { token: { $ne: "" }, role: 0 })
-    .exec()// returns promise
-    .then(theUser => {
-      let myname = theUser.email;
-      // let myaddress = theUser.address;
-      return  Cart.findByIdAndUpdate( {_id : item._id } , {email: myname});
-      })
-    .then(updated => {
-      //user updated
-    })
-    .catch(err => {
-      console.log(err);
-    });
-
-  }    
-    res.status(200).send({ success: true });
+    let a = new mongoose.Types.ObjectId(item._id);
+    idarr.push(a);
+  }
+  console.log(idarr);
+  await Cart.findOneAndDelete( { _id : { $nin : idarr}} );
+  
+  res.status(200).send({ success: true });
 });
 
 
@@ -495,6 +480,22 @@ app.post("/prevorder", async (req, res) => {
   
 
   PrevOrder.findOneAndUpdate(filter, update, (err, user) => {
+    if (err) return res.json({ success: false, err });
+    return res.status(200).send({ success: true });
+  });
+});
+
+//장바구니에서 status를 변경하기 
+app.post("/cartrev", async (req, res) => {
+  
+  const cartid = req.body._id;
+  const cartstatus = req.body.dinnerStyle;
+  const cartnum = req.body.num;
+  const update = { dinnerStyle : cartstatus , num : cartnum};
+  const filter = {_id : cartid};
+  
+
+  Cart.findOneAndUpdate(filter, update, (err, user) => {
     if (err) return res.json({ success: false, err });
     return res.status(200).send({ success: true });
   });
