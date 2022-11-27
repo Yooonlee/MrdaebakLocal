@@ -52,6 +52,22 @@ function PrevOrderList() {
                             <td>{order.num}</td>
                         </tr>
                         <tr>
+                            <td style={{ backgroundColor: "#d3d3d3" }}>추가 커피 개수</td>
+                            <td>{order.coffee}</td>
+                        </tr>
+                        <tr>
+                            <td style={{ backgroundColor: "#d3d3d3" }}>추가 빵 개수</td>
+                            <td>{order.bread}</td>
+                        </tr>
+                        <tr>
+                            <td style={{ backgroundColor: "#d3d3d3" }}>추가 스테이크 개수</td>
+                            <td>{order.steak}</td>
+                        </tr>
+                        <tr>
+                            <td style={{ backgroundColor: "#d3d3d3" }}>추가 요청사항</td>
+                            <td>{order.message}</td>
+                        </tr>
+                        <tr>
                             <td colSpan="2" style={{ backgroundColor: "#d3d3d3" }}>주문 상태</td>
                             <td colSpan="2">{order.status}</td>
                         </tr>

@@ -274,7 +274,7 @@ app.post("/cartnew", async (req, res) => {
   {
     let update = {};
     let number = item.num;
-    console.log(item);
+
     if(item.dinnerMenu === "발렌타인 디너")
     {
        update = {$inc : {wine : -1 , steak : -1}};
@@ -292,6 +292,7 @@ app.post("/cartnew", async (req, res) => {
        update = {$inc : {shamp : -2, baguette : -4, coffee : -2, wine : -2, steak : -2 }};
     }  
 
+
     for(var i = 1; i< number + 1; i++)
     {
       Inventory.findByIdAndUpdate(filter, update, (err, user) => {
@@ -299,6 +300,39 @@ app.post("/cartnew", async (req, res) => {
         return ({ success: true });
       });
     }
+    if( (item.coffee !== 0) || (item.bread !== 0) || (item.steak !== 0))
+    {
+        update = {$inc : {coffee : -(item.coffee) , steak : -(item.steak), bread: -(item.bread)}};
+        Inventory.findByIdAndUpdate(filter, update, (err, user) => {
+          if (err) return res.json({ success: false, err });
+          return ({ success: true });
+        });
+    }
+  }
+  //이전 결제 구매 횟수가 3보다 크면 vip
+  var isVIP= 0;
+  await User.findOne( { token: { $ne: "" }, role: 0 })
+    .exec()
+    .then(theUser => {
+      let myname = theUser.email;
+      return PrevOrder.find({ email: myname });
+    })
+    .then(prev => {
+      var size = 0;
+      for (var i of prev) 
+      {            
+        size++;           
+      }
+      console.log(size);
+      if(size > 3)
+      {
+        isVIP = 1;
+      }
+    });
+  console.log(isVIP);
+  if( isVIP === 1)
+  {
+   await User.findOneAndUpdate( { token: { $ne: "" }, role: 0 }, {isVip : "VIP"}); 
   }
 
   Cart.deleteMany({}, (err, kitties) => {
@@ -487,7 +521,11 @@ app.post("/cartrev", async (req, res) => {
   const cartid = req.body._id;
   const cartstatus = req.body.dinnerStyle;
   const cartnum = req.body.num;
-  const update = { dinnerStyle : cartstatus , num : cartnum};
+  const cartcoffee = req.body.coffee;
+  const cartbread = req.body.bread;
+  const cartsteak = req.body.steak;
+  const cartmessage = req.body.message;
+  const update = { dinnerStyle : cartstatus , num : cartnum, coffee: cartcoffee, bread:cartbread, steak:cartsteak, message: cartmessage};
   const filter = {_id : cartid};
   
 

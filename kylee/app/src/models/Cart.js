@@ -28,6 +28,21 @@ const cartSchema = mongoose.Schema({
     type: String,
     default : "waiting",
   },
+  coffee: {
+    type: Number,
+    default : 0,
+  },
+  bread: {
+    type: Number,
+    default : 0,
+  },
+  steak: {
+    type: Number,
+    default : 0,
+  },
+  message: {
+    type: String,
+  },  
 });
 
 

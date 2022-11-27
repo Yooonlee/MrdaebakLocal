@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Button, TopMenuButton } from "./Button";
 import AddOrder from "../modal/AddOrder";
+import axios from "axios";
 
 const Wrapper = styled.span`
     text-align: center;
@@ -37,6 +38,15 @@ const DescriptionText = styled.p`
 
 function DishMenuListItem(props) {
     const { dish, isLogedin } = props;
+    const [user, setUser] = useState("");
+
+
+    const fetchData = async() => {
+        const response = await axios.get("http://localhost:8000/customerinfo");
+        console.log(response.data[0]);
+        setUser(response.data[0]);
+    };
+    useEffect( ()=>{fetchData()} ,[]);    
 
     const content =
         <>
@@ -46,7 +56,7 @@ function DishMenuListItem(props) {
                 </tr>
                 <tr>
                     <td><NameText>{dish.name}</NameText></td>
-                    <td>{dish.pricesimple}원</td>
+                    {user.isVip === "VIP"? <td>{(dish.pricesimple) / 2}원</td>: <td>{dish.pricesimple}원</td>}
                 </tr>
             </table>
             <div class="menu-hovered">

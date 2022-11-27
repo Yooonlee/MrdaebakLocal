@@ -30,6 +30,10 @@ function Cart() {
     const [cart, setCart] = useState("");
     const [selectedStatus, setSelectedStatus] = useState("");
     const [selectedNum, setNumStatus] = useState("");
+    const [coffeeStatus, setCoffeeStatus] = useState("");
+    const [steakStatus, setSteakStatus] = useState("");
+    const [breadStatus, setBreadStatus] = useState("");
+    const [messageStatus, setMessageStatus] = useState("");
     const [refresh, setRefresh] = useState("");
     // const [formdata, setFormdata] = useState({
     //     _id: "", 
@@ -48,6 +52,18 @@ function Cart() {
         }
     const onNumHandler = (event) => {
         setNumStatus(event.currentTarget.value)
+        }
+    const onCoffeeHandler = (event) => {
+        setCoffeeStatus(event.currentTarget.value)
+        }
+    const onSteakHandler = (event) => {
+        setSteakStatus(event.currentTarget.value)
+        }
+    const onBreadHandler = (event) => {
+        setBreadStatus(event.currentTarget.value)
+        }
+    const onMessageHandler = (event) => {
+        setMessageStatus(event.currentTarget.value)
         }
     // const onStatusHandler = (event) => {
     //     const {name, value} = event.target;
@@ -79,12 +95,17 @@ function Cart() {
     
     const cartlist = Object.values(cart)?.map((cartCon) => {
         //수정하기
+        // 추가메뉴를 추가, 변경하는 것은 입력하여 요청하지만 제거하는 것은 따로 요청사항에 적어 요청하기
         const onClickChange = (event) => {
             event.preventDefault();
             let body = {
                 _id: cartCon._id,
                 dinnerStyle: selectedStatus,
                 num: selectedNum,
+                coffee:coffeeStatus,
+                steak:steakStatus,
+                bread:breadStatus,
+                message:messageStatus,
                 }
             registerStatus2(body);
         }
@@ -103,6 +124,18 @@ function Cart() {
                     <td>{cartCon.price}</td>
                 </tr>
                 <tr>
+                    <td style={{ backgroundColor: "#ff7f00" }}>추가 커피 수</td>
+                    <td>{cartCon.coffee}</td>
+                    <td style={{ backgroundColor: "#ff7f00" }}>추가 빵 수</td>
+                    <td>{cartCon.bread}</td>
+                    <td style={{ backgroundColor: "#ff7f00" }}>추가 스테이크 수</td>
+                    <td>{cartCon.steak}</td>
+                </tr>
+                <tr>
+                    <td style={{ backgroundColor: "#ff7f00" }}>주문 요청사항</td>
+                    <td>{cartCon.message}</td>
+                </tr>
+                <tr>
                       <td>스타일 바꾸기: </td>
                       <td><select name="dinnerStyle" onChange={onStatusHandler} class="statusoption">
                         <option value="simple" selected={"simple" === cartCon.dinnerStyle}>보통</option>
@@ -113,7 +146,23 @@ function Cart() {
                 </tr>
                 <tr>
                     <td>수량 변경</td>
-                    <td><input type="text" name="num" onChange={onNumHandler}    /></td>
+                    <td><input type="text" name="num" onChange={onNumHandler}   /></td>
+                </tr>
+                <tr>
+                    <td>추가 커피 변경</td>
+                    <td><input type="text" name="coffee" onChange={onCoffeeHandler}     /></td>
+                </tr>
+                <tr>
+                    <td>추가 빵 변경</td>
+                    <td><input type="text" name="bread" onChange={onBreadHandler}   /></td>
+                </tr>
+                <tr>
+                    <td>추가 스테이크 변경</td>
+                    <td><input type="text" name="steak" onChange={onSteakHandler}    /></td>
+                </tr>
+                <tr>
+                    <td>추가 요청사항</td>
+                    <td><input type="text" name="message" onChange={onMessageHandler}    /></td>
                 </tr>
                 <tr>
                     <td colSpan="4"><Button title="취소" onClick={() =>  {

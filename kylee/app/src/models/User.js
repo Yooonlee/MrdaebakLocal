@@ -26,6 +26,10 @@ const userSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
+  isVip: {
+    type: String,
+    default: "일반회원",
+  },
   image: String,
   address: {
     type: String,

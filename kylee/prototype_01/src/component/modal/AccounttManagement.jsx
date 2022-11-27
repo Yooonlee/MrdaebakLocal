@@ -98,6 +98,10 @@ function AccMag4Cus() {
                 <tr>
                     <td colSpan="4"><Button title="수정하기" onClick = {onClickChange}/></td>
                 </tr>
+                <tr>
+                    <td>단골손님여부</td>
+                    <td>{value.isVip}</td>
+                </tr>
             </table>
         </div>)
     })
