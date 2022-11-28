@@ -39,6 +39,7 @@ function AddOrder(props) {
         let sum = eval("dish.price" + selectedStyle)
         if(user.isVip === "VIP")
         {
+            console.log("ddddd");
             sum = eval("dish.price" + selectedStyle)/2;    
         }
         let body = {
@@ -53,6 +54,8 @@ function AddOrder(props) {
             console.log(err);
           });
     }
+
+
     const orderwindow =
     <table width="400px">
     <tr>
@@ -77,9 +80,9 @@ function AddOrder(props) {
         <td>
             <fieldset colSpan="3">
                 <legend>음식 형태</legend>
-                { dish.id === 4 ? null : <><input type="radio" value="simple" onClick={handleChange} checked={selectedStyle == "simple"} />보통</>}
-                <input type="radio" value="grand" onClick={handleChange} checked={selectedStyle == "grand"} />고급
-                <input type="radio" value="delux" onClick={handleChange} checked={selectedStyle == "delux"} />호화
+                { dish.id === 4 ? null : <><input type="radio" value="simple" onClick={handleChange} checked={selectedStyle === "simple"} />보통</>}
+                <input type="radio" value="grand" onClick={handleChange} checked={selectedStyle === "grand"} />고급
+                <input type="radio" value="delux" onClick={handleChange} checked={selectedStyle === "delux"} />호화
             </fieldset>
 
         </td>

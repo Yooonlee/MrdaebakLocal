@@ -47,6 +47,8 @@ function DishMenuListItem(props) {
         setUser(response.data[0]);
     };
     useEffect( ()=>{fetchData()} ,[]);    
+    let tempprice = dish.pricesimple ? dish.pricesimple : dish.pricegrand
+
 
     const content =
         <>
@@ -56,7 +58,7 @@ function DishMenuListItem(props) {
                 </tr>
                 <tr>
                     <td><NameText>{dish.name}</NameText></td>
-                    {user.isVip === "VIP"? <td>{(dish.pricesimple) / 2}원</td>: <td>{dish.pricesimple}원</td>}
+                    <td>{user.isVip === "VIP" ? <>{tempprice / 2}원</>: <>{tempprice}원</>}</td>
                 </tr>
             </table>
             <div class="menu-hovered">

@@ -121,10 +121,15 @@ app.get("/auth", auth, (req, res) => {
 
 //LogOut
 app.post("/logout", (req, res) => {
-  User.findOneAndUpdate({ _id: req.body._id }, { token  : "" }, (err, user) => {
-    if (err) return res.json({ success: false, err });
-    return res.status(200).send({ success: true });
-  });
+  
+  if(req.body.email !== "void")
+  {
+    User.findOneAndUpdate({ _id: req.body._id }, { token  : "" }, (err, user) => {
+      if (err) return res.json({ success: false, err });
+      return res.status(200).send({ success: true });
+    });
+  }
+
 });
 
 //장바구니 추가 
@@ -137,10 +142,11 @@ app.post("/menu", (req, res) => {
   
   cart.save();
 
-  User.findOne( { token: { $ne: "" }, role: { $ne: 77 } })
+  User.findOne( {  role: { $ne: "77" } })
     .exec()// returns promise
     .then(theUser => {
       let myname = theUser.email;
+      console.log(myname);
       // let myaddress = theUser.address;
       return Cart.findOneAndUpdate( {_id : cart._id } , {email: myname});
       })

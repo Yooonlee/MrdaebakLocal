@@ -4,7 +4,7 @@
     {
         "id": 1,
         "name": "발렌타인 디너",
-        "picture": "https://www.barilla.com/-/media/images/ko_kr/recipes/blue-box/800x600/spaghettipomodoro_800x600.jpg",
+        "picture": "/img/EnglishDinner.png",
         "pricesimple" : 10000,
         "pricegrand": 12000,
         "pricedelux": 15000,
@@ -15,7 +15,7 @@
     },{
         "id": 2,
         "name": "프렌치 디너",
-        "picture": "https://post-phinf.pstatic.net/MjAxODAzMjFfMTI5/MDAxNTIxNjIxNTE0MjU4.K6A7tUiwden3UQMwelM35_4GIFB-NlhoPPIVD6IWokEg.KiHRHoreNOKSDQtEsW2de4ikvCRXlemsHah2xEjUGjQg.PNG/CA180320A_01.png",
+        "picture": "/img/FrenchDinner.png",
         "pricesimple" : 20000,
         "pricegrand": 22000,
         "pricedelux": 25000,
@@ -26,7 +26,7 @@
     },{
         "id": 3,
         "name": "잉글리시 디너",
-        "picture": "https://www.barilla.com/-/media/images/ko_kr/recipes/blue-box/800x600/spaghettipomodoro_800x600.jpg",
+        "picture": "/img/EnglishDinner.png",
         "pricesimple" : 15000,
         "pricegrand": 17000,
         "pricedelux": 20000,
@@ -37,7 +37,7 @@
     },{
         "id": 4,
         "name": "샴페인 축제 디너",
-        "picture": "https://post-phinf.pstatic.net/MjAxODAzMjFfMTI5/MDAxNTIxNjIxNTE0MjU4.K6A7tUiwden3UQMwelM35_4GIFB-NlhoPPIVD6IWokEg.KiHRHoreNOKSDQtEsW2de4ikvCRXlemsHah2xEjUGjQg.PNG/CA180320A_01.png",
+        "picture": "/img/ChampagneFestivalDinner.png",
         "pricesimple" : 20000,
         "pricegrand": 25000,
         "pricedelux": 30000,
